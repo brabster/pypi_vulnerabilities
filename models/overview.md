@@ -1,3 +1,3 @@
 {% docs __overview__ %}
-Front page for your DBT pages site
+BigQuery-based investigation into PyPI package downloads and vulnerabilities.
 {% enddocs %}

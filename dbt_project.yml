@@ -11,7 +11,7 @@ profile: 'current'
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You probably won't need to change these!
-model-paths: ["models"]
+model-paths: ["models", "test_models"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
 seed-paths: ["seeds"]
@@ -36,14 +36,12 @@ models:
     # push any model/column descriptions to the target database
     relation: true
     columns: true
-
-tests:
   product:
-    daily:
-      # tests in the daily folder should have this clause appended to their where clause
-      # used here to limit the data scanned by the query
-      # note the predicate pushdown to the underlying timestamp column in the source data
-      +where: download_date BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 4 DAY) AND DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY)
+    udf_tests:
+      materialized: view
+
+tests: {}
 
 on-run-start:
-  -  "{{ ensure_target_dataset_exists() }}" # may or may not be appropriate for your environmental constraints
+  - "{{ ensure_target_dataset_exists() }}"
+  - "{{ ensure_udfs() }}"

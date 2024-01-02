@@ -14,8 +14,18 @@ dbt docs automatically published on deployment at https://brabster.github.io/dbt
 
 # Setup
 
+> Note - on first open, automated tasks that update your local dependency versions will fail because your virtualenv is not yet created. My attempts to automate this process haven't turned out to be reliable, so bootstrapping instructions are provided below. Once set up, automated dependency updates should execute automatically when you open this directory in VSCode.
+
 - open the terminal
     - `Terminal` - `New Terminal`
+- create virtualenv and install dependencies
+    - Use [VSCode options](https://code.visualstudio.com/docs/python/environments#_creating-environments)
+        - `Python - Create Environment`, accept defaults
+    - OR manually
+        - `python -m venv .venv` (other parts of the project assume venv is in `.venv`, so find/replace if you change that)
+        - `source .venv/bin/activate` (`source .venv/Scripts/activate` on Windows/Git-Bash)
+        - VSCode command `Python - Select Interpreter`
+    - Install dependencies: `pip install -U -r requirements.txt`
 - update .env with appropriate values
     - note project ID not project name (manifests as 404 error)
     - `. .env` to update values in use in terminal
@@ -24,8 +34,7 @@ dbt docs automatically published on deployment at https://brabster.github.io/dbt
     - must be application default credential
     - `gcloud auth application-default login`
 - `dbt debug` should now succeed and list settings/versions
-    - if `dbt` is not found, you may need to enter your venv at the terminal
-        - `. .venv/bin/activate` (`. .venv/Scripts/activate` on Windows/Git-Bash)
+    - if `dbt` is not found, you may need to activate your venv at the terminal as described earlier
 
 # Assumptions
 
