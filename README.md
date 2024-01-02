@@ -1,4 +1,4 @@
-A candidate template for a standalone dbt-core/dbt-bigquery based repository.
+Investigating downloads of vulnerable Python packages from PyPI.
 
 Thanks to [Equal Experts](https://equalexperts.com) for supporting this work.
 
