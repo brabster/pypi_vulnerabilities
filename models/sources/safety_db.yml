@@ -6,6 +6,6 @@ sources:
     schema: sandbox_paul_brabban
     description: Contents of public safety DB
     tables:
-      - name: safety_db
-        description: Python package versions with known vulnerabilities
+      - name: safety_db_2022_07_01
+        description: Python package versions with known vulnerabilities at 2022-07-01 according to GitHub
         

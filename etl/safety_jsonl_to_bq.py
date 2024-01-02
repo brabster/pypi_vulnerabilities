@@ -3,14 +3,14 @@ from google.cloud import bigquery
 import argparse
 import os
 
-SOURCE_PATH = os.path.join(os.path.dirname(__file__), '../uncommitted', 'safety_db.jsonl')
+SOURCE_PATH = os.path.join(os.path.dirname(__file__), '../uncommitted', 'safety_db_2022_07_01.jsonl')
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--project_id', default=os.environ.get('DBT_PROJECT'))
     parser.add_argument('--location', default=os.environ.get('DBT_LOCATION'))
     parser.add_argument('--dataset', default=os.environ.get('DBT_DATASET'))
-    parser.add_argument('--table', default='safety_db')
+    parser.add_argument('--table', default='safety_db_2022_07_01')
     parser.add_argument('--source_path', default=SOURCE_PATH)
     return parser.parse_args()
 

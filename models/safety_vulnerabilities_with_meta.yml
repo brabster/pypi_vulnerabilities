@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: safety_vulnerabilities_with_meta
+    description: Joined safety_db and NIST NVD datasets
+    columns:
+      - name: package
+        description: PyPI package string
+        tests:
+          - not_null
+      - name: cve
+        description: CVE reference ID
+        tests:
+          - not_null
+      - name: specs
+        description: Array of semver specifications that associate versions of the pacakge with the CVE
+        tests:
+          - not_null
+      - name: nvd_published_at
+        description: Timestamp recorded for the publication of the vulnerability
+      - name: nvd_estimated_published_at
+        description: Publication timestamp using best available data where not explicitly specified   
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              max_value: TIMESTAMP('2022-08-01')
+      - name: cvss_base_score
+        description: Base score for the vulnerability, preferring CVSS V3 if available

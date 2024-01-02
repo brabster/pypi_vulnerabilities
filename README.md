@@ -36,17 +36,24 @@ dbt docs automatically published on deployment at https://brabster.github.io/dbt
 - `dbt debug` should now succeed and list settings/versions
     - if `dbt` is not found, you may need to activate your venv at the terminal as described earlier
 
+# August 01, 2022
+
+I'm performing this initial analysis on package downloads performed on a specific date, August 01 in 2022. There's a few reasons for that:
+
+- The NVD data I'm using is no longer maintained, and only runs up to October 2022.
+- PyPI downloads is a big dataset - the full dataset for this date alone is 152GB. Same date in 2023 is 224GB. That's expensive to process. I can get an idea of what's going on and figure out how to solve the problems that need solving with a relatively small dataset, so I copy just the columns I need for one day with minimal processing to a new table and work from that.
+
 # Obtaining Safety DB in BigQuery
 
 I use the public database used by the [safety] package as a reference for which PyPI packages have known vulnerabilities.
 
 Automation is provided to take care of making the current version of the [public Safety DB](https://github.com/pyupio/safety-db/tree/master/data) available as a BigQuery table. The source data is stored as a large JSON array, so needs a bit of processing before it can be loaded into BigQuery.
 
-1. [etl/safety_db_to_jsonl.py](etl/safety_db_to_jsonl.py) downloads the current version from GitHub and converts to a jsonlines format.
+1. [etl/safety_db_to_jsonl.py](etl/safety_db_to_jsonl.py) downloads the July 1, 2022 update from GitHub and converts to a jsonlines format.
     - this script outputs to the `uncommitted` dir in the repo, which is `.gitignore`d. 
 1. [etl/safety_jsonl_to_bq.py](etl/safety_jsonl_to_bq.py) loads the file produced by the previous script into a BigQuery table.
     - this script defaults to environment variables values matching those in your `.env` file. That seems like a sensible default but can be overridden with command line arguments.
 
 # Obtaining Vulnerability Publication Dates
 
-The Safety DB provides a convenient way to associate a vulnerablity with a PyPI package, but it does not include information about when a vulnerability started showing up in vulnerability scanning tools. Each safety vulnerability has a CVE, and there is a historical public dataset of this information produced by [`redteam-project`](https://github.com/redteam-project). 
+The Safety DB provides a convenient way to associate a vulnerablity with a PyPI package, but it does not include information about when a vulnerability started showing up in vulnerability scanning tools. Each safety vulnerability has a CVE, and there is a historical public dataset of this information produced by [`redteam-project`](https://github.com/redteam-project). This is no longer maintained.
