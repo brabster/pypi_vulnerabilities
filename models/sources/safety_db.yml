@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: safety_db
+    database: pypi-408816
+    schema: sandbox_paul_brabban
+    description: Contents of public safety DB
+    tables:
+      - name: safety_db
+        description: Python package versions with known vulnerabilities
+        

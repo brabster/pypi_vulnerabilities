@@ -1,0 +1,44 @@
+[
+    {
+        "name": "package",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "vulnerabilities",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "fields": [
+            {
+                "name": "v",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "specs",
+                "type": "STRING",
+                "mode": "REPEATED"
+            },
+            {
+                "name": "more_info_path",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "id",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "cve",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "advisory",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            }
+        ]
+    }
+]
