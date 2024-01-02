@@ -1,0 +1,15 @@
+# Python virtualenv files
+.venv/
+
+# User's environment settings
+.env
+
+# DBT logs
+logs/
+
+# DBT target dir
+target/
+
+# DBT packages
+dbt_packages/
+package-lock.yml 

@@ -1,0 +1,50 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "init_venv",
+        "type": "shell",
+        "command": "python",
+        "args": ["-m", "venv", ".venv"]
+      },
+      {
+        "label": "ensure_pip_version",
+        "type": "shell",
+        "command": "pip",
+        "args": ["install", "--upgrade", "pip"],
+        "dependsOn": ["init_venv"]
+      },
+      {
+        "label": "ensure_python_deps_updated",
+        "type": "shell",
+        "command": "pip",
+        "args": ["install", "-U", "-r", "${workspaceFolder}/requirements.txt"],
+        "dependsOn": ["init_venv"]
+      },
+      {
+        "label": "load_user_env",
+        "type": "shell",
+        "command": ". ${workspaceFolder}/.env"
+      },
+      {
+        "label": "ensure_dbt_packages_updated",
+        "type": "shell",
+        "command": "dbt",
+        "args": ["deps", "--upgrade"],
+        "dependsOn": ["ensure_python_deps_updated", "load_user_env"]
+      },
+      {
+        "label": "ensure_updated",
+        "dependsOn": [
+          "ensure_pip_version",
+          "ensure_python_deps_updated",
+          "ensure_dbt_packages_updated"
+        ],
+        "runOptions": {
+          "runOn": "folderOpen"
+        }
+      }
+    ]
+  }
