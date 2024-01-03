@@ -13,8 +13,6 @@ jobs:
         pages: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          base-ref: ref
       - uses: ./.github/actions/setup_dbt
       - uses: google-github-actions/auth@v2
         with:
