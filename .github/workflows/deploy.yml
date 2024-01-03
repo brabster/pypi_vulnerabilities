@@ -23,11 +23,9 @@ jobs:
           version: '>= 363.0.0'
       - run: |
           source .venv/bin/activate
-          source .envs/${{ inputs.env }}.env
+          source .envs/prod.env
           python etl/safety_db_to_jsonl.py
           python etl/safety_jsonl_to_bq.py
-        with:
-          env: prod
       - uses: ./.github/actions/dbt_build
         with:
           env: prod
