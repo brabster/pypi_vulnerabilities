@@ -16,6 +16,10 @@ export WIF_SERVICE_ACCOUNT=pypi-vulnerabilities
 ```
 
 ```console
+gcloud services enable iamcredentials.googleapis.com
+```
+
+```console
 gcloud iam workload-identity-pools create "${WIF_POOL}" \
   --project="${DBT_PROJECT}" \
   --location="global" \
