@@ -1,0 +1,33 @@
+name: deploy-to-gcp
+on:
+  push: {}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      PIP_REQUIRE_VIRTUALENV: true
+    permissions:
+        contents: read
+        id-token: write
+        actions: read
+        pages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          base-ref: ref
+      - uses: ./.github/actions/setup_dbt
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@v2
+        with:
+          version: '>= 363.0.0'
+      - uses: ./.github/actions/dbt_build
+        with:
+          env: prod
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: target
+      - uses: actions/deploy-pages@v4
+        
