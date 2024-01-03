@@ -41,7 +41,7 @@ dbt docs automatically published on deployment at https://brabster.github.io/dbt
 I'm performing this initial analysis on package downloads performed on a specific date, August 01 in 2022. There's a few reasons for that:
 
 - The NVD data I'm using is no longer maintained, and only runs up to October 2022.
-- PyPI downloads is a big dataset - the full dataset for this date alone is 152GB. Same date in 2023 is 224GB. That's expensive to process. I can get an idea of what's going on and figure out how to solve the problems that need solving with a relatively small dataset, so I copy just the columns I need for one day with minimal processing to a new table and work from that.
+- PyPI downloads is a big dataset - the full dataset for this date alone is 152GB. Same date in 2023 is 224GB. At $5/TB scanned, that's about a dollar a day to scan one day of the full dataset. I can get an idea of what's going on and figure out how to solve the problems that need solving with a relatively small dataset, so I copy just the columns I need for one day with minimal processing to a new table and work from that.
 
 # Obtaining Safety DB in BigQuery
 

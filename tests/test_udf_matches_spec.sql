@@ -18,4 +18,4 @@ test AS (
 SELECT
     *
 FROM test
-WHERE actual != expected
+WHERE TO_JSON_STRING(actual) != TO_JSON_STRING(expected)

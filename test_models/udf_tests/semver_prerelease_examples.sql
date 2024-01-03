@@ -1,0 +1,12 @@
+SELECT '1' AS semver, '1' AS release, 'z' AS prerelease, 'z' AS prerelease_prefix, '' AS prerelease_suffix, '0000000001z0000000000' AS comparable
+UNION ALL SELECT '2', '2', 'z', 'z', '', '0000000002z0000000000'
+UNION ALL SELECT '2a0', '2', 'a0', 'a', '0', '0000000002a0000000000'
+UNION ALL SELECT '2a1', '2', 'a1', 'a', '1', '0000000002a0000000001'
+UNION ALL SELECT '2a2', '2', 'a2', 'a', '2', '0000000002a0000000002'
+UNION ALL SELECT '2a10', '2', 'a10', 'a', '10', '0000000002a0000000010'
+UNION ALL SELECT '10a2', '10', 'a2', 'a', '2', '0000000010a0000000002'
+UNION ALL SELECT '10a10', '10', 'a10','a',  '10', '0000000010a0000000010'
+UNION ALL SELECT '2b0', '2', 'b0', 'b', '0', '0000000002b0000000000'
+UNION ALL SELECT '4-alpha44', '4', 'alpha44', 'alpha', '44', '0000000004alpha0000000044'
+UNION ALL SELECT '44-alpha44', '44', 'alpha44', 'alpha', '44', '0000000044alpha0000000044'
+UNION ALL SELECT '2-rc44', '2', 'rc44', 'rc', '44', '0000000002rc0000000044'
