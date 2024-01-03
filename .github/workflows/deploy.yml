@@ -21,6 +21,10 @@ jobs:
       - uses: google-github-actions/setup-gcloud@v2
         with:
           version: '>= 363.0.0'
+      - run: |
+          . .venv/bin/activate
+          python etl/safety_db_to_jsonl.py
+          python etl/safety_jsonl_to_bq.py
       - uses: ./.github/actions/dbt_build
         with:
           env: prod
