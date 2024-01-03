@@ -1,18 +1,9 @@
 version: 2
 
 sources:
-  - name: pypi
-    database: pypi-408816
-    schema: sandbox_paul_brabban
+  - name: pypi-vulnerabilities
+    schema: '{{ target.schema }}'
     description: Processed download logs from PyPI dataset
     tables:
-      - name: package_downloads_2022_08_01
+      - name: package_downloads_2023_11_05
         description: Single-day slice of minimal columns to support the analysis
-# CREATE OR REPLACE TABLE `some_dataset.package_downloads_2022_08_01` AS
-# SELECT
-#   package,
-#   package_version,
-#   installer,
-#   download_count
-# FROM `pypi-408816.pypi.package_downloads`
-# WHERE download_date = '2022-08-01'

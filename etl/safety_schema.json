@@ -5,6 +5,11 @@
         "mode": "NULLABLE"
     },
     {
+        "name": "commit_date",
+        "type": "DATE",
+        "mode": "NULLABLE"
+    },
+    {
         "name": "vulnerabilities",
         "type": "RECORD",
         "mode": "REPEATED",

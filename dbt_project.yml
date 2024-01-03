@@ -43,3 +43,4 @@ tests: {}
 on-run-start:
   - "{{ ensure_target_dataset_exists() }}"
   - "{{ ensure_udfs() }}"
+  - "{{ ensure_single_day_downloads_materialized() }}"
