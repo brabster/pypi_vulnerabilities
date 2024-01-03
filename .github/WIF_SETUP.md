@@ -16,7 +16,7 @@ export WIF_SERVICE_ACCOUNT=pypi-vulnerabilities
 ```
 
 ```console
-gcloud services enable iamcredentials.googleapis.com
+gcloud services enable iamcredentials.googleapis.com --project "${DBT_PROJECT}"
 ```
 
 ```console
@@ -32,7 +32,7 @@ gcloud iam workload-identity-pools providers create-oidc "${WIF_PROVIDER}" \
   --location="global" \
   --workload-identity-pool="${WIF_POOL}" \
   --display-name="DBT provider" \
-  --attribute-mapping="google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.aud=assertion.aud,attribute.repository=assertion.repository" \
+  --attribute-mapping="google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository" \
   --issuer-uri="https://token.actions.githubusercontent.com"
 ```
 
@@ -54,7 +54,7 @@ gcloud iam service-accounts add-iam-policy-binding "${WIF_SERVICE_ACCOUNT}@${DBT
 gcloud iam service-accounts add-iam-policy-binding "${WIF_SERVICE_ACCOUNT}@${DBT_PROJECT}.iam.gserviceaccount.com" \
   --project="${DBT_PROJECT}" \
   --role="roles/iam.serviceAccountTokenCreator" \
-  --member="principalSet://iam.googleapis.com/projects/${WIF_PROJECT_NUMBER}/locations/global/workloadIdentityPools/${WIF_POOL}/attribute.repository/${WIF_GITHUB_REPO}"
+  --member="${WIF_SERVICE_ACCOUNT}@${DBT_PROJECT}.iam.gserviceaccount.com" 
 ```
 
 # Recover Secrets for GitHub
