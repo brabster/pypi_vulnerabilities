@@ -62,6 +62,12 @@ gcloud iam service-accounts add-iam-policy-binding "${WIF_SERVICE_ACCOUNT}@${DBT
   --member="serviceAccount:${WIF_SERVICE_ACCOUNT}@${DBT_PROJECT}.iam.gserviceaccount.com" 
 ```
 
+```console
+gcloud projects add-iam-policy-binding "${DBT_PROJECT}" \
+  --role="roles/bigquery.admin" \
+  --member="serviceAccount:${WIF_SERVICE_ACCOUNT}@${DBT_PROJECT}.iam.gserviceaccount.com" 
+```
+
 # Recover Secrets for GitHub
 
 ```console
