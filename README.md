@@ -1,5 +1,7 @@
 Investigating downloads of vulnerable Python packages from PyPI.
 
+DBT Documentation on [GitHub Pages](https://brabster.github.io/pypi_vulnerabilities).
+
 Thanks to [Equal Experts](https://equalexperts.com) for supporting this work.
 
 dbt docs automatically published on deployment at https://brabster.github.io/dbt_bigquery_template/
