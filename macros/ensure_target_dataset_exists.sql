@@ -8,6 +8,7 @@
 
     CREATE SCHEMA IF NOT EXISTS `{{ project_id }}`.`{{ dataset_name }}`
     OPTIONS (
+        description = 'Exploring vulnerable PyPI downloads. Managed by https://github.com/brabster/pypi_vulnerabilities',
         location = '{{ dataset_location }}'
     )
 

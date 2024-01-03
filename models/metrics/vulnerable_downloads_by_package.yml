@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: vulnerable_downloads_by_package
+    description: Package downloads by installer breakdown for 2023-11-05 based on Safety DB @ 2023-10-01
+    columns:
+      - name: package
+        description: Package identification string
+        tests:
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
+      - name: downloads_with_known_vulnerabilities
+        description: Number of downloads with vulnerabilities documented in Safety DB for at least one month
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: downloads_without_known_vulnerabilities
+        description: Number of downloads without known vulnerabilities
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: proportion_vulnerable_downloads
+        description: Known vulnerable proportion of total downloads
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+      

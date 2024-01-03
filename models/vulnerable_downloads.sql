@@ -1,3 +1,4 @@
+{{ config(materialized='table') }}
 WITH grouped_vulnerabilities AS (
     SELECT
         download_date,

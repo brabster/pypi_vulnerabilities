@@ -29,6 +29,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 #     columns: true
 
 models:
+  +labels:
+    stability: stable
   +grant_access_to: []
   +persist_docs:
     # push any model/column descriptions to the target database
@@ -37,6 +39,9 @@ models:
   product:
     udf_tests:
       materialized: ephemeral
+    metrics:
+      +labels:
+        stability: unstable
 
 tests: {}
 
