@@ -13,13 +13,6 @@ AS (
   REGEXP_EXTRACT(spec, r'([^<=>]+)$')
 );
 
-CREATE OR REPLACE FUNCTION {{ target.schema }}.clean_semver(spec STRING)
-RETURNS STRING
-OPTIONS (description='Removes non-numeric and dot characters from semver string. Needs reviewing to handle alpha, beta, rc etc. versions')
-AS (
-  REGEXP_REPLACE(spec, r'[^0-9.]', '')
-);
-
 CREATE OR REPLACE FUNCTION {{ target.schema }}.extract_prerelease(part STRING)
 RETURNS STRING
 OPTIONS (description='Extract a pre-release specification, if present. Example: "a0" in "0a0", "rc3" in "0-rc3". If no prerelease, "z" is used to sort behind any actual pre-release values')
