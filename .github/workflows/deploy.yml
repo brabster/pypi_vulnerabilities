@@ -21,7 +21,6 @@ jobs:
       - uses: google-github-actions/setup-gcloud@v2
         with:
           version: '>= 363.0.0'
-      - run: gcloud auth list; bq ls --project_id ${DBT_PROJECT}
       - uses: ./.github/actions/dbt_build
         with:
           env: prod
