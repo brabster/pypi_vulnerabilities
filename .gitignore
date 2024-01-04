@@ -1,19 +1,19 @@
 # Python virtualenv files
-.venv/
+/.venv/
 
 # User's environment settings
-.env
+/.env
 
 # DBT logs
-logs/
+/logs/
 
 # DBT target dir
-target/
+/target/
 
 # DBT packages
-dbt_packages/
-package-lock.yml 
+/dbt_packages/
+/package-lock.yml 
 
 # files that we don't want committed
-uncommitted/*
-!uncommitted/README.md
+/uncommitted/*
+!/uncommitted/README.md

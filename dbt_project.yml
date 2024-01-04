@@ -31,6 +31,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   +labels:
     stability: stable
+    data_classification: public
   +grant_access_to: []
   +persist_docs:
     # push any model/column descriptions to the target database

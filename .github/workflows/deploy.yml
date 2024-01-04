@@ -21,9 +21,16 @@ jobs:
       - uses: google-github-actions/setup-gcloud@v2
         with:
           version: '>= 363.0.0'
-      - run: |
+      - name: ensure prod dataset exists
+        run: |
           source .venv/bin/activate
-          source .envs/prod.env
+          source .envs/prod/.env
+          dbt run-operation ensure_target_dataset_exists
+          bq update --source .envs/prod/dataset_acl.json
+      - name: load prod safety db
+        run: |
+          source .venv/bin/activate
+          source .envs/prod/.env
           python etl/safety_db_to_jsonl.py
           python etl/safety_jsonl_to_bq.py
       - uses: ./.github/actions/dbt_build

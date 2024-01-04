@@ -12,7 +12,7 @@ runs:
       shell: bash
       run: |
           source .venv/bin/activate
-          source .envs/${{ inputs.env }}.env
+          source .envs/${{ inputs.env }}/.env
           rm -rf logs
           dbt clean
           dbt deps

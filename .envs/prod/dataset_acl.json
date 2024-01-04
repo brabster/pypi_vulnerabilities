@@ -1,0 +1,20 @@
+{
+    "access": [
+        {
+            "role": "READER",
+            "specialGroup": "projectReaders"
+        },
+        {
+            "role": "WRITER",
+            "specialGroup": "projectWriters"
+        },
+        {
+            "role": "OWNER",
+            "specialGroup": "projectOwners"
+        },
+        {
+            "role": "roles/bigquery.dataViewer",
+            "specialGroup": "allAuthenticatedUsers"
+        }
+    ]
+}
