@@ -25,6 +25,7 @@ jobs:
         run: |
           source .venv/bin/activate
           source .envs/prod/.env
+          dbt deps
           dbt run-operation ensure_target_dataset_exists
           bq update --source .envs/prod/dataset_acl.json
       - name: load prod safety db
