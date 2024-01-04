@@ -4,7 +4,7 @@
     {% set dataset_name = target.schema %}
     {% set dataset_location = target.location %}
 
-    {% do log("Ensuring dataset " ~ project_id ~ "." ~ dataset_name ~ " exists in location " ~ dataset_location ) %}
+    {{ print("Ensuring dataset " ~ project_id ~ "." ~ dataset_name ~ " exists in location " ~ dataset_location ) }}
 
     CREATE SCHEMA IF NOT EXISTS `{{ project_id }}`.`{{ dataset_name }}`
     OPTIONS (
