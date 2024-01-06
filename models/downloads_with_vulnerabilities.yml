@@ -4,16 +4,18 @@ models:
   - name: downloads_with_vulnerabilities
     description: Joins Safety vulnerabilities to PyPI download metadata using semver matching functions.
     columns:
+      - name: download_date
+        description: Date on which package was downloaded
       - name: package
         description: Package identification string
+      - name: package_version
+        description: Package version string
       - name: installer
         description: Installer identification string
-      - name: was_vulnerable
-        description: Matched to a known vulnerability in Safety DB
-      - name: package_agg
-        description: Set to 0 to group by package, 1 when aggregated
-      - name: installer_agg
-        description: Set to 0 to group by installer, 1 when aggregated
-      - name: was_vulnerable_agg
-        description: Set to 0 to group by was_vulnerable, 1 when aggregated
+      - name: download_count
+        description: Number of recorded downloads
+      - name: cve
+        description: Vulnerability identification string
+      - name: was_known_vulnerabile_when_downloaded
+        description: Whether the package and version match a known vulnerability in the Safety DB, according to version matching UDFs
       
