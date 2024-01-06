@@ -16,6 +16,7 @@ runs:
         source .venv/bin/activate
         pip install -U setuptools pip safety
         pip install -U -r requirements.txt
+        dbt deps
     - name: safety-check
       shell: bash
       run: |

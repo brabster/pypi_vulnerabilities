@@ -13,7 +13,7 @@ runs:
       run: |
           source .venv/bin/activate
           source .envs/${{ inputs.env }}/.env
-          dbt build --exclude contracts
+          dbt test -s contracts
           dbt docs generate
     - name: upload target artifacts
       uses: actions/upload-artifact@v3

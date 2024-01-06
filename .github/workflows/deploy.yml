@@ -13,7 +13,8 @@ jobs:
         pages: write
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup_dbt
+      - name: setup dbt
+        uses: ./.github/actions/setup_dbt
       - uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
@@ -34,11 +35,18 @@ jobs:
           source .envs/prod/.env
           python etl/safety_db_to_jsonl.py
           python etl/safety_jsonl_to_bq.py
-      - uses: ./.github/actions/dbt_build
+      - name: dbt prod build
+        uses: ./.github/actions/dbt_build
         with:
           env: prod
-      - uses: actions/upload-pages-artifact@v3
+      - name: dbt prod contracts
+        uses: ./.github/actions/dbt_contract_test
+        with:
+          env: prod
+      - name: upload prod pages
+        uses: actions/upload-pages-artifact@v3
         with:
           path: target
-      - uses: actions/deploy-pages@v4
+      - name: deploy prod pages
+        uses: actions/deploy-pages@v4
         
