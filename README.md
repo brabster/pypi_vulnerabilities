@@ -1,42 +1,18 @@
 Investigating downloads of vulnerable Python packages from PyPI.
 
-DBT Documentation on [GitHub Pages](https://brabster.github.io/pypi_vulnerabilities).
+# Supporters
 
-Thanks to [Equal Experts](https://equalexperts.com) for supporting this work.
+<a href="https://equalexperts.com">
+    <img alt="Equal Experts logo"
+        src="https://www.equalexperts.com/wp-content/themes/equalexperts/assets/logos/colour/equal-experts-logo-colour.png"
+        style="height:75px">
+    </img>
+</a>
 
-dbt docs automatically published on deployment at https://brabster.github.io/dbt_bigquery_template/
+# Generated Resources
 
-# Pre-Reqs
-
-- Python == 3.11 (see https://docs.getdbt.com/faqs/Core/install-python-compatibility)
-- [RECOMMENDED] VSCode to use built-in tasks
-- Access to GCP Project enabled for BigQuery
-- [RECOMMENDED] set environment variable `PIP_REQUIRE_VIRTUALENV=true`
-    - Prevents accidentally installing to your system Python installation (if you have permissions to do so)
-
-# Setup
-
-> Note - on first open, automated tasks that update your local dependency versions will fail because your virtualenv is not yet created. My attempts to automate this process haven't turned out to be reliable, so bootstrapping instructions are provided below. Once set up, automated dependency updates should execute automatically when you open this directory in VSCode.
-
-- open the terminal
-    - `Terminal` - `New Terminal`
-- create virtualenv and install dependencies
-    - Use [VSCode options](https://code.visualstudio.com/docs/python/environments#_creating-environments)
-        - `Python - Create Environment`, accept defaults
-    - OR manually
-        - `python -m venv .venv` (other parts of the project assume venv is in `.venv`, so find/replace if you change that)
-        - `source .venv/bin/activate` (`source .venv/Scripts/activate` on Windows/Git-Bash)
-        - VSCode command `Python - Select Interpreter`
-    - Install dependencies: `pip install -U -r requirements.txt`
-- update .env with appropriate values
-    - note project ID not project name (manifests as 404 error)
-    - `. .env` to update values in use in terminal
-- get credentials
-    - if no valid credential, then error message says default credentials not found
-    - must be application default credential
-    - `gcloud auth application-default login`
-- `dbt debug` should now succeed and list settings/versions
-    - if `dbt` is not found, you may need to activate your venv at the terminal as described earlier
+- DBT Documentation on [GitHub Pages](https://brabster.github.io/pypi_vulnerabilities).
+- Public Dataset on BigQuery US Location: `pypi-vulnerabilities.pypi_vulnerabilities_us`
 
 # Timeframe
 
@@ -46,6 +22,62 @@ I'm performing this initial analysis on package downloads performed on a specifi
 - The Safety public dataset is updated monthly, so I can use a the 2023-10-01 update to be sure that any vulnerabilities I'm considering have been in the public domain and accessible via tools for at least a month.
 
 I can get an idea of what's going on and figure out how to solve the problems that need solving with a relatively small snapshot dataset, so I copy just the columns I need for one day with minimal processing to a new table and work from that.
+
+# Example Query
+
+## Top Ten Packages by Number of Vulnerable Downloads
+
+Bills 94MB
+
+```sql
+SELECT
+  package,
+  downloads_with_known_vulnerabilities,
+  downloads_without_known_vulnerabilities,
+  proportion_vulnerable_downloads
+FROM `pypi-vulnerabilities.pypi_vulnerabilities_us.vulnerable_downloads_by_package`
+ORDER BY downloads_with_known_vulnerabilities DESC
+LIMIT 10
+```
+
+![Results table for top ten packages by vulnerable download count query](./.docs/assets/top_ten_packages_by_vuln_download_count.png)
+
+# Contributing
+
+See [CONTRIBUTORS.md](CONTRIBUTORS.md) for guidance.
+
+## Pre-Reqs
+
+- Python == 3.11 (see https://docs.getdbt.com/faqs/Core/install-python-compatibility)
+- [RECOMMENDED] VSCode to use built-in tasks
+- Access to GCP Project enabled for BigQuery
+- [RECOMMENDED] set environment variable `PIP_REQUIRE_VIRTUALENV=true`
+    - Prevents accidentally installing to your system Python installation (if you have permissions to do so)
+
+## Setup Local
+
+Setting up the local software without any need for Data Warehouse credentials.
+
+A VSCode task triggers a shell script [.dev_scripts/init_and_update.sh](.dev_scripts/init_and_update.sh)
+which should take care of setting up a virtualenv if necessary, then installing/updating software and running a vulnerability scan.
+
+> Note - the vulnerability scan is performed using [safety](https://pypi.org/project/safety/), which is *not free for commercial use* and has limitations on freshness and completeness of the vulnerability database.
+
+That script describes the steps involved in a full setup if you are unable to run a bash script and need to translate to some other language.
+
+## Connect to Data Warehouse
+
+Set up credentials and environment and test connectivity.
+
+- update .env with appropriate values
+    - note project ID not project name (manifests as 404 error)
+    - `. .env` to update values in use in terminal
+- get credentials
+    - if no valid credential, then error message says default credentials not found
+    - must be application default credential
+    - `gcloud auth application-default login`
+- `dbt debug` should now succeed and list settings/versions
+    - if `dbt` is not found, you may need to activate your venv at the terminal as described earlier
 
 # Obtaining Safety DB in BigQuery
 

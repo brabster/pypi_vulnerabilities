@@ -1,40 +1,15 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "ensure_pip_version",
-        "type": "shell",
-        "command": "pip install --upgrade pip"
-      },
-      {
-        "label": "ensure_python_deps_updated",
-        "type": "shell",
-        "command": "pip install -U -r ${workspaceFolder}/requirements.txt"
-      },
-      {
-        "label": "load_user_env",
-        "type": "shell",
-        "command": ". ${workspaceFolder}/.env"
-      },
-      {
-        "label": "ensure_dbt_packages_updated",
-        "type": "shell",
-        "command": "dbt",
-        "args": ["deps", "--upgrade"],
-        "dependsOn": ["ensure_python_deps_updated", "load_user_env"]
-      },
-      {
-        "label": "ensure_updated",
-        "dependsOn": [
-          "ensure_pip_version",
-          "ensure_python_deps_updated",
-          "ensure_dbt_packages_updated"
-        ],
-        "runOptions": {
-          "runOn": "folderOpen"
-        }
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "init_and_update",
+      "type": "shell",
+      "command": "${workspaceFolder}/.dev_scripts/init_and_update.sh",
+      "runOptions": {
+        "runOn": "folderOpen"
       }
-    ]
-  }
+    }
+  ]
+}
