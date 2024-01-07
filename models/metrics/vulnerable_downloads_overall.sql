@@ -8,8 +8,8 @@ WITH raw AS (
 )
 
 SELECT
-    download_sum downloads_with_known_vulnerabilities,
-    total_downloads - download_sum downloads_without_known_vulnerabilities,
+    was_vulnerable,
+    download_sum downloads,
     SAFE_DIVIDE(download_sum, total_downloads) proportion_vulnerable_downloads
 FROM raw
 

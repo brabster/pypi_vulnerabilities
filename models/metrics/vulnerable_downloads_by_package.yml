@@ -10,18 +10,23 @@ models:
           - not_null
           - unique
           - dbt_utils.at_least_one
-      - name: downloads_with_known_vulnerabilities
-        description: Number of downloads with vulnerabilities documented in Safety DB for at least one month
+
+      - name: was_vulnerable
+        description: True when the package version downloaded had a known vulnerability at time of download
+        tests:
+          - not_null
+          - dbt_utils.at_least_one
+          - accepted_values:
+              values: [true, false]
+              quote: false
+
+      - name: downloads
+        description: Number of downloads
         tests:
           - not_null
           - dbt_utils.accepted_range:
               min_value: 0
-      - name: downloads_without_known_vulnerabilities
-        description: Number of downloads without known vulnerabilities
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
+
       - name: proportion_vulnerable_downloads
         description: Known vulnerable proportion of total downloads
         tests:
