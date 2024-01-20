@@ -14,6 +14,11 @@ Investigating downloads of vulnerable Python packages from PyPI.
 - DBT Documentation on [GitHub Pages](https://brabster.github.io/pypi_vulnerabilities).
 - Public Dataset on BigQuery US Location: `pypi-vulnerabilities.pypi_vulnerabilities_us`
 
+# Stability and Versioning
+
+- Please consider the BigQuery dataset structure and schema to be experimental and subject to unannounced breaking changes at this stage. If you wish for me to hold something stable, please raise an issue to let me know.
+- I do not version this dataset as I will not be maintaining previous versions.
+
 # Timeframe
 
 I'm performing this initial analysis on package downloads performed on a specific date, 2023-11-05. There's a few reasons for that:
