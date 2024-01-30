@@ -17,3 +17,5 @@
 # files that we don't want committed
 /uncommitted/*
 !/uncommitted/README.md
+
+__pycache__/
