@@ -34,8 +34,7 @@ jobs:
         run: |
           source .venv/bin/activate
           source .envs/prod/.env
-          python etl/safety_db_to_jsonl.py
-          python etl/safety_jsonl_to_bq.py
+          python etl/safety_db/load-missing-partitions.py
       - name: dbt prod build
         uses: ./.github/actions/dbt_build
         with:
