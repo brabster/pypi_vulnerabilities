@@ -1,0 +1,7 @@
+version: 2
+
+models:
+  - name: safety_db_2023_10_01
+    description: Temporary view for a specific date in safety history to maintain backwards compatibility
+    
+      

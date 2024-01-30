@@ -1,8 +1,0 @@
-version: 2
-
-models:
-  - name: safety_db_watermark
-    description: Tracks the latest update timestamp for SafetyDB. Used by ETL process to apply subsequent updates.
-    columns:
-      - name: latest_commit_timestamp
-        description: The timestamp for the latest commit.
