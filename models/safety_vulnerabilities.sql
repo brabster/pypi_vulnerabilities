@@ -1,6 +1,6 @@
 SELECT
     package,
-    commit_date,
+    DATE(commit_timestamp) commit_date,
     vulnerability.specs specs,
     vulnerability.cve cve
 FROM {{ ref('safety_db_2023_10_01') }}
