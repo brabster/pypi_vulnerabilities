@@ -19,8 +19,8 @@ jobs:
         uses: ./.github/actions/setup_dbt
       - uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ secrets.TW_GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.TW_GCP_SERVICE_ACCOUNT }}
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
       - uses: google-github-actions/setup-gcloud@v2
         with:
           version: '>= 363.0.0'

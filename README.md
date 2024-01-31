@@ -12,7 +12,7 @@ Investigating downloads of vulnerable Python packages from PyPI.
 # Generated Resources
 
 - DBT Documentation on [GitHub Pages](https://brabster.github.io/pypi_vulnerabilities).
-- Public Dataset on BigQuery US Location: `pypi-vulnerabilities.pypi_vulnerabilities_us`
+- Public Dataset on BigQuery US Location: `pypi-vulns.published_us`
 
 # Stability and Versioning
 
@@ -40,7 +40,7 @@ SELECT
   was_vulnerable,
   downloads,
   proportion_vulnerable_downloads
-FROM `pypi-vulnerabilities.pypi_vulnerabilities_us.vulnerable_downloads_by_package`
+FROM `pypi-vulns.published_us.vulnerable_downloads_by_package`
 WHERE was_vulnerable
 ORDER BY downloads DESC
 LIMIT 10
