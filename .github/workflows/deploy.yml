@@ -11,6 +11,7 @@ jobs:
     env:
       PIP_REQUIRE_VIRTUALENV: true
       DBT_PYPI_EARLIEST_DOWNLOAD_DATE: ${{ vars.DBT_PYPI_EARLIEST_DOWNLOAD_DATE }}
+      DBT_MAX_BYTES_BILLED: ${{ vars.DBT_MAX_BYTES_BILLED }}
     permissions:
         contents: read
         id-token: write
