@@ -91,7 +91,4 @@ I use the public database used by the [safety] package as a reference for which 
 
 Automation is provided to take care of making the current version of the [public Safety DB](https://github.com/pyupio/safety-db/tree/master/data) available as a BigQuery table. The source data is stored as a large JSON array, so needs a bit of processing before it can be loaded into BigQuery.
 
-1. [etl/safety_db_to_jsonl.py](etl/safety_db_to_jsonl.py) downloads the July 1, 2022 update from GitHub and converts to a jsonlines format.
-    - this script outputs to the `uncommitted` dir in the repo, which is `.gitignore`d. 
-1. [etl/safety_jsonl_to_bq.py](etl/safety_jsonl_to_bq.py) loads the file produced by the previous script into a BigQuery table.
-    - this script defaults to environment variables values matching those in your `.env` file. That seems like a sensible default but can be overridden with command line arguments.
+[`etl/safety_db/load_missing_partitions.py`](etl/safety_db/load_missing_partitions.py) takes care of loading any Safety DB commits that are not currently available in the data warehouse.

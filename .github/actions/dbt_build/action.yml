@@ -13,7 +13,7 @@ runs:
       run: |
           source .venv/bin/activate
           source .envs/${{ inputs.env }}/.env
-          dbt build --exclude contracts
+          dbt build --exclude contracts ${DBT_BUILD_EXTRA_ARGS} # can be used eg. to run a full_refresh - empty by default
           dbt docs generate
     - name: upload target artifacts
       uses: actions/upload-artifact@v3
