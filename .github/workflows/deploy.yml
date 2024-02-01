@@ -1,10 +1,10 @@
 name: deploy-to-gcp
 on:
-  schedule:
-    - '0 4 * * *'
-  push
+  push: {}
     # branches:
     #   - main
+  schedule:
+    - '0 4 * * *'
 jobs:
   deploy:
     runs-on: ubuntu-latest
