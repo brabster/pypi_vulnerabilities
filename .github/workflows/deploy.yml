@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PIP_REQUIRE_VIRTUALENV: true
+      DBT_PYPI_EARLIEST_DOWNLOAD_DATE: ${{ vars.DBT_PYPI_EARLIEST_DOWNLOAD_DATE }}
     permissions:
         contents: read
         id-token: write
