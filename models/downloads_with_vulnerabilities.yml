@@ -16,6 +16,6 @@ models:
         description: Number of recorded downloads
       - name: cve
         description: Vulnerability identification string
-      - name: was_known_vulnerabile_when_downloaded
+      - name: was_known_vulnerable_when_downloaded
         description: Whether the package and version match a known vulnerability in the Safety DB, according to version matching UDFs
       

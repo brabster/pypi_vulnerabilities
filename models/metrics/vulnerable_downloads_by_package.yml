@@ -2,13 +2,23 @@ version: 2
 
 models:
   - name: vulnerable_downloads_by_package
-    description: Package downloads by installer breakdown for 2023-11-05 based on Safety DB @ 2023-10-01
+    description: Package downloads by package breakdown
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - download_date
+            - package
+            - was_vulnerable
     columns:
+      - name: download_date
+        description: Date when downloads occurred
+        tests:
+          - dbt_utils.at_least_one
+
       - name: package
         description: Package identification string
         tests:
           - not_null
-          - unique
           - dbt_utils.at_least_one
 
       - name: was_vulnerable
