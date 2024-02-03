@@ -4,7 +4,7 @@ WITH raw AS (
         installer,
         was_vulnerable,
         download_sum,
-        SUM(download_sum) OVER (PARTITION BY installer) total_installer_downloads
+        SUM(download_sum) OVER (PARTITION BY download_date, installer) total_installer_downloads
     FROM {{ ref('download_vulnerability_cube') }}
     WHERE 
         package_agg = 1
