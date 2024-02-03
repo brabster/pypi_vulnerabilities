@@ -1,8 +1,10 @@
 name: deploy-to-gcp
 on:
   push: {}
-    # branches:
-    #   - main
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
   schedule:
     - cron: '0 4 * * *'
 jobs:
