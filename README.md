@@ -1,5 +1,7 @@
 Investigating downloads of vulnerable Python packages from PyPI.
 
+[![deploy-to-gcp](https://github.com/brabster/pypi_vulnerabilities/actions/workflows/deploy.yml/badge.svg)](https://github.com/brabster/pypi_vulnerabilities/actions/workflows/deploy.yml)
+
 # Supporters
 
 <a href="https://equalexperts.com">
@@ -32,7 +34,7 @@ I can get an idea of what's going on and figure out how to solve the problems th
 
 ## Top Ten Packages by Number of Vulnerable Downloads
 
-Bills 94MB
+Bills 277 MB
 
 ```sql
 SELECT
@@ -42,11 +44,23 @@ SELECT
   proportion_vulnerable_downloads
 FROM `pypi-vulns.published_us.vulnerable_downloads_by_package`
 WHERE was_vulnerable
+  AND download_date = '2023-11-05'
 ORDER BY downloads DESC
 LIMIT 10
 ```
 
-![Results table for top ten packages by vulnerable download count query](./.docs/assets/top_ten_packages_by_vuln_download_count.png)
+|package|was_vulnerable|downloads|proportion_vulnerable_downloads|
+|-------|--------------|---------|-------------------------------|
+|requests|true|2435390|0.2838941569600516|
+|numpy|true|2124978|0.44167721853126357|
+|urllib3|true|2052931|0.18725861594174412|
+|flask|true|1878314|0.6503661420171899|
+|awscli|true|1831423|0.45352032247727847|
+|cryptography|true|1534228|0.34972655174363154|
+|sqlalchemy|true|1401421|0.55823008581653166|
+|scikit-learn|true|1058386|1.0|
+|pydantic|true|1036847|0.37088439111792182|
+|setuptools|true|934051|0.13253937971267768|
 
 # Contributing
 
