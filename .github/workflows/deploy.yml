@@ -1,6 +1,6 @@
 name: deploy-to-gcp
 on:
-  push: {}
+  push:
     branches:
       - main
     paths-ignore:
