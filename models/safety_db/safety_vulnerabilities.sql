@@ -14,5 +14,5 @@ SELECT
       LEAD(commit_date) OVER (
         PARTITION BY package, cve
         ORDER BY commit_date),
-      CURRENT_DATE) until_date
+      DATE_ADD(commit_date, INTERVAL 1 MONTH)) until_date
 FROM dated
