@@ -6,6 +6,12 @@
     )
 }}
 
+{% set latest_partition_date_sql %}
+  SELECT MAX(download_date) FROM {{ this }}
+{% endset %}
+
+{% set latest_partition_date = dbt_utils.get_single_value(latest_partition_date_sql, '1970-01-01') %}
+
 SELECT
   download_date,
   package,
@@ -16,7 +22,7 @@ FROM {{ ref('file_downloads') }}
 WHERE download_date >= DATE('{{ env_var("DBT_PYPI_EARLIEST_DOWNLOAD_DATE") }}')
 
 {% if is_incremental() %}
-  AND download_date >= (SELECT MAX(download_date) - INTERVAL 1 DAY FROM {{ this }})
+  AND download_date >= '{{ latest_partition_date }}'
 {% endif %}
 
 GROUP BY
