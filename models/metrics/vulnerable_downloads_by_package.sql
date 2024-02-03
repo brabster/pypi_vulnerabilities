@@ -6,8 +6,8 @@ WITH raw AS (
         download_sum,
         SUM(download_sum) OVER (PARTITION BY package) total_package_downloads
     FROM {{ ref('download_vulnerability_cube') }}
-    WHERE download_date_agg = 1
-        AND package_agg = 0
+    WHERE package_agg = 0
+        AND download_date_agg = 0
         AND installer_agg = 1
         AND was_vulnerable_agg = 0
 )

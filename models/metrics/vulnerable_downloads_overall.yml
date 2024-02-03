@@ -13,6 +13,7 @@ models:
         description: Date when downloads occurred
         tests:
           - dbt_utils.at_least_one
+          - not_null
 
       - name: downloads
         description: Number of downloads

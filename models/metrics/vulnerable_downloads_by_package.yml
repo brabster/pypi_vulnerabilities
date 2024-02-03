@@ -14,6 +14,7 @@ models:
         description: Date when downloads occurred
         tests:
           - dbt_utils.at_least_one
+          - not_null
 
       - name: package
         description: Package identification string

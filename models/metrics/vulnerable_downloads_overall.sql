@@ -5,14 +5,14 @@ WITH raw AS (
         download_sum,
         SUM(download_sum) OVER () total_downloads
     FROM {{ ref('download_vulnerability_cube') }}
-    WHERE download_date_agg = 1
+    WHERE download_date_agg = 0
         AND package_agg = 1
         AND installer_agg = 1
         AND was_vulnerable_agg = 0
 )
 
 SELECT
-    download_date
+    download_date,
     was_vulnerable,
     download_sum downloads,
     SAFE_DIVIDE(download_sum, total_downloads) proportion_vulnerable_downloads
