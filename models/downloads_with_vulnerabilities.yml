@@ -16,6 +16,8 @@ models:
         description: Number of recorded downloads
       - name: cve
         description: Vulnerability identification string
+      - name: commit_date
+        description: Commit date for the vulnerability record that associated with this download
       - name: was_known_vulnerable_when_downloaded
         description: Whether the package and version match a known vulnerability in the Safety DB, according to version matching UDFs
       
