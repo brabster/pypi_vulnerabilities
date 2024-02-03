@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: vulnerable_downloads_by_cve
+    description: Package downloads by cve breakdown
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - download_date
+            - cve
+    columns:
+      - name: download_date
+        description: Date when downloads occurred
+        tests:
+          - dbt_utils.at_least_one
+          - not_null
+
+      - name: cve
+        description: Package installer identification string
+        tests:
+          - dbt_utils.at_least_one
+
+      - name: downloads
+        description: Number of downloads
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
