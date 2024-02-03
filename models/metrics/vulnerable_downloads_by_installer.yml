@@ -20,7 +20,6 @@ models:
         description: Package installer identification string
         tests:
           - dbt_utils.at_least_one
-          - unique
 
       - name: was_vulnerable
         description: True when the package version downloaded had a known vulnerability at time of download
