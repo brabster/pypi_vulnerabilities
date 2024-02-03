@@ -1,14 +1,20 @@
 WITH raw AS (
     SELECT
+        download_date,
         installer,
         was_vulnerable,
         download_sum,
-        SUM(download_sum) OVER (PARTITION BY installer) total_installer_downloads
+        SUM(download_sum) OVER (PARTITION BY download_date, installer) total_installer_downloads
     FROM {{ ref('download_vulnerability_cube') }}
-    WHERE package_agg = 1 AND installer_agg = 0 AND was_vulnerable_agg = 0
+    WHERE 
+        package_agg = 1
+        AND download_date_agg = 0
+        AND installer_agg = 0
+        AND was_vulnerable_agg = 0
 )
 
 SELECT
+    download_date,
     installer,
     was_vulnerable,
     download_sum downloads,

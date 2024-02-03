@@ -5,9 +5,31 @@
         "mode": "NULLABLE"
     },
     {
-        "name": "commit_date",
-        "type": "DATE",
+        "name": "commit_timestamp",
+        "type": "TIMESTAMP",
         "mode": "NULLABLE"
+    },
+    {
+        "name": "commit",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "fields": [
+            {
+                "name": "sha",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "message",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "file_url",
+                "type": "STRING",
+                "mode": "NULLABLE"
+            }
+        ]
     },
     {
         "name": "vulnerabilities",

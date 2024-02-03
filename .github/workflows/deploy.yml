@@ -1,13 +1,17 @@
 name: deploy-to-gcp
 on:
-  push:
-    branches:
-      - main
+  push: {}
+    # branches:
+    #   - main
+  schedule:
+    - cron: '0 4 * * *'
 jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
       PIP_REQUIRE_VIRTUALENV: true
+      DBT_PYPI_EARLIEST_DOWNLOAD_DATE: ${{ vars.DBT_PYPI_EARLIEST_DOWNLOAD_DATE }}
+      DBT_MAX_BYTES_BILLED: ${{ vars.DBT_MAX_BYTES_BILLED }}
     permissions:
         contents: read
         id-token: write
@@ -34,8 +38,7 @@ jobs:
         run: |
           source .venv/bin/activate
           source .envs/prod/.env
-          python etl/safety_db_to_jsonl.py
-          python etl/safety_jsonl_to_bq.py
+          python etl/safety_db/load_missing_partitions.py
       - name: dbt prod build
         uses: ./.github/actions/dbt_build
         with:

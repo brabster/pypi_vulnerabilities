@@ -6,8 +6,9 @@ WITH grouped_vulnerabilities AS (
         package_version,
         installer,
         download_count,
-        ARRAY_AGG(STRUCT(cve, was_known_vulnerable_when_downloaded)) maybe_cves
+        ARRAY_AGG(STRUCT(cve, commit_date, was_known_vulnerable_when_downloaded)) maybe_cves
     FROM {{ ref('downloads_with_vulnerabilities') }}
+    WHERE cve IS NOT NULL
     GROUP BY
         download_date,
         package,
@@ -19,7 +20,7 @@ WITH grouped_vulnerabilities AS (
 filtered_by_vulnerable AS (
     SELECT
         *,
-        ARRAY(SELECT cve.cve FROM UNNEST(maybe_cves) cve WHERE cve.was_known_vulnerable_when_downloaded) vulnerabilities
+        ARRAY(SELECT STRUCT(cve.cve, cve.commit_date) FROM UNNEST(maybe_cves) cve WHERE cve.was_known_vulnerable_when_downloaded) vulnerabilities
     FROM grouped_vulnerabilities
 )
 

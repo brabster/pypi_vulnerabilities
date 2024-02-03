@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: safety_vulnerabilities
+    description: Row-per-vulnerability view over the safety database
+    # tests:
+    # there are rows that have all these columns the same but different specs?
+    #   - dbt_utils.unique_combination_of_columns:
+    #       combination_of_columns:
+    #         - commit_date
+    #         - package
+    #         - cve
+    columns:
+      - name: commit_date
+        description: Date of the Safety commit, first date when a particular vulnerability record was in effect
+        tests:
+          - not_null
+      - name: until_date
+        description: Date of the next commit
+      - name: package
+        description: Package associated with vulnerability
+        tests:
+          - not_null
+      - name: specs
+        description: Version range vulnerability applies to, as a semver constraint
+        tests:
+          - not_null
+      - name: cve
+        description: Vulnerability identifier - may not actually be a CVE! May be null.
+        

@@ -10,6 +10,7 @@ current:
       method: oauth
       priority: interactive
       project: "{{ env_var('DBT_PROJECT') }}"
-      threads: "{{ env_var('DBT_THREADS', 8) }}"
+      threads: "{{ env_var('DBT_THREADS', '8') | int }}"
       type: bigquery
+      maximum_bytes_billed: "{{ env_var('DBT_MAX_BYTES_BILLED', '50000000000') | int }}" # 50GB billable bytes estimate limit
   target: current

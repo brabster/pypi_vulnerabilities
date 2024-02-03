@@ -1,9 +1,0 @@
-version: 2
-
-sources:
-  - name: pypi-vulnerabilities
-    schema: '{{ target.schema }}'
-    description: Processed download logs from PyPI dataset
-    tables:
-      - name: package_downloads_2023_11_05
-        description: Single-day slice of minimal columns to support the analysis

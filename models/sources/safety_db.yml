@@ -2,10 +2,24 @@ version: 2
 
 sources:
   - name: safety_db
-    database: pypi-vulnerabilities
+    database: '{{ target.database }}'
     schema: '{{ target.schema }}'
     description: Contents of public Safety DB, see https://github.com/pyupio/safety-db
     tables:
-      - name: safety_db_2023_10_01
-        description: Python package versions with known vulnerabilities at 2023-10-01 according to GitHub
-        
+      - name: safety_db_history
+        description: History of SafetyDB public changes. This data is updated once per month. Schema definition in etl/safety_schema.json
+        columns:
+          - name: package
+          - name: commit
+          - name: commit.sha
+          - name: commit.timestamp
+          - name: commit.message
+          - name: commit.file_url
+          - name: vulnerabilities
+          - name: vulnerabilities.v
+          - name: vulnerabilities.specs
+          - name: vulnerabilities.more_info_path
+          - name: vulnerabilities.id
+          - name: vulnerabilities.cve
+          - name: vulnerabilities.advisory
+

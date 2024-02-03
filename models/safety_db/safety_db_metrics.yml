@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: safety_db_metrics
+    description: Metrics about Safety DB contents available
+    columns:
+      - name: commit_timestamp
+        description: Timestamp of the commit
+        tests:
+          - not_null
+          - unique
+      - name: commit_details
+        description: Summary of commit details encoded as JSON
+        tests:
+          - not_null
+          - unique
+      - name: package_count
+        description: Number of packages with at least one vulnerability record in the commit
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
