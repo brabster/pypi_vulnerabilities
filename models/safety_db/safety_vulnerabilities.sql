@@ -3,7 +3,8 @@ WITH dated AS (
     package,
     DATE(commit_timestamp) commit_date,
     vulnerability.specs specs,
-    vulnerability.cve cve
+    vulnerability.cve cve,
+    ROW_NUMBER() OVER(PARTITION BY package, vulnerability.cve ORDER BY commit_timestamp) - 1 previous_commits
   FROM {{ source('safety_db', 'safety_db_history') }}
       CROSS JOIN UNNEST(vulnerabilities) vulnerability
 )
