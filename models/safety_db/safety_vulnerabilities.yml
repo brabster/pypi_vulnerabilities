@@ -28,7 +28,7 @@ models:
       - name: cve
         description: Vulnerability identifier - may not actually be a CVE! May be null.
       - name: previous_commits
-        description: Number of times the vulnerability has appears in a safety DB commit before, 0 = first appearance
+        description: Number of times the vulnerability has appeared in a safety DB commit before, 0 = first appearance
         tests:
           - not_null
           - dbt_utils.accepted_range:
