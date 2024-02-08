@@ -5,6 +5,8 @@ runs:
   using: composite
   steps:
     - uses: actions/setup-python@v5
+      env:
+        PIP_REQUIRE_VIRTUALENV: false
       with:
         python-version: '3.11' # dbt does not support 3.12 yet
         check-latest: true
