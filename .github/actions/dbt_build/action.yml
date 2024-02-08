@@ -19,10 +19,10 @@ runs:
           source .envs/${{ inputs.env }}/.env
           dbt build --exclude contracts ${{ inputs.dbt_extra_args }}
           dbt docs generate
-      continue-on-error: true
       
     - name: upload target artifacts
       uses: actions/upload-artifact@v3
+      if: ${{ always() }}
       with:
         name: dbt_artifacts_${{ inputs.env }}
         path: |
