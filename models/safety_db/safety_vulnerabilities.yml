@@ -33,3 +33,7 @@ models:
           - not_null
           - dbt_utils.accepted_range:
               min_value: 0
+      - name: is_first_commit
+        description: True when this is the first appearance of the vulnerability for the package and version specification
+        tests:
+          - not_null
