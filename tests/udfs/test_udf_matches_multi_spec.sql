@@ -9,7 +9,7 @@ WITH examples AS (
 test AS (
     SELECT
         *,
-        {{ target.schema }}.matches_multi_spec(specs, package_version) actual
+        {{ ref('matches_multi_spec') }}(specs, package_version) actual
     FROM examples
 )
 

@@ -8,7 +8,7 @@ WITH examples AS (
 test AS (
     SELECT
         *,
-        {{ target.schema }}.lpad_semver_part(clause) actual
+        {{ ref('lpad_semver_part') }}(clause) actual
     FROM examples
 )
 

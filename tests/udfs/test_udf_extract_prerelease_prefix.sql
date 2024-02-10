@@ -1,8 +1,8 @@
 WITH test AS (
     SELECT
         *,
-        prerelease_suffix expected,
-        {{ target.schema }}.extract_prerelease_suffix(prerelease) actual
+        prerelease_prefix expected,
+        {{ ref('extract_prerelease_prefix') }}(prerelease) actual
     FROM {{ ref('semver_prerelease_examples') }}
 )
 

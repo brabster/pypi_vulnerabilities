@@ -5,12 +5,13 @@ WITH examples AS (
         should_match expected
     FROM {{ ref('semver_examples') }}
     WHERE ARRAY_LENGTH(specs) = 1
+        AND specs[SAFE_OFFSET(0)] NOT LIKE '%,%'
 ),
 
 test AS (
     SELECT
         *,
-        {{ target.schema }}.matches_maybe_compound_spec(spec, package_version) actual
+        {{ ref('matches_spec') }}(spec, package_version) actual
     FROM examples
 )
 
