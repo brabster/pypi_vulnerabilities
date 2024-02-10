@@ -1,8 +1,8 @@
 WITH test AS (
     SELECT
         *,
-        comparable expected,
-        {{ target.schema }}.semver_part_to_comparable(semver) actual
+        prerelease_suffix expected,
+        {{ ref('extract_prerelease_suffix') }}(prerelease) actual
     FROM {{ ref('semver_prerelease_examples') }}
 )
 

@@ -8,7 +8,7 @@ WITH examples AS (
 test AS (
     SELECT
         *,
-        {{ target.schema }}.extract_op(clause) actual
+        {{ ref('extract_op') }}(clause) actual
     FROM examples
 )
 

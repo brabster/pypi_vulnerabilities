@@ -45,4 +45,4 @@ tests: {}
 
 on-run-start:
   - "{{ ensure_target_dataset_exists() }}"
-  - "{{ ensure_udfs() }}"
+  #- "{{ ensure_udfs() }}"

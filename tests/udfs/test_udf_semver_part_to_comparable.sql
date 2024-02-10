@@ -2,8 +2,8 @@ WITH test AS (
     SELECT
         *,
         comparable expected,
-        {{ target.schema }}.semver_to_comparable(spec) actual
-    FROM {{ ref('semver_prerelease_full_examples') }}
+        {{ ref('semver_part_to_comparable') }}(semver) actual
+    FROM {{ ref('semver_prerelease_examples') }}
 )
 
 SELECT

@@ -9,7 +9,7 @@ WITH examples AS (
 test AS (
     SELECT
         *,
-        {{ target.schema }}.extract_version(clause) actual
+        {{ ref('extract_version')  }}(clause) actual
     FROM examples
 )
 
