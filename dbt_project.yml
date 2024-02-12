@@ -22,27 +22,18 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
-# can document seeds if present
-# seeds:
-#   +persist_docs:
-#     relation: true
-#     columns: true
-
 models:
   +labels:
     stability: unstable
     data_classification: public
-  +grant_access_to: []
   +persist_docs:
-    # push any model/column descriptions to the target database
     relation: true
     columns: true
   product:
+    datasets:
+      grant_public: '{{ env_var("DBT_PUBLIC", "False") | as_bool }}'
+    internal:
+      +schema: internal
     udf_tests:
       materialized: ephemeral
     
-tests: {}
-
-on-run-start:
-  - "{{ ensure_target_dataset_exists() }}"
-  #- "{{ ensure_udfs() }}"

@@ -1,3 +1,4 @@
+-- depends_on: {{ ref('internal') }}
 SELECT
     download.download_date,
     download.package,

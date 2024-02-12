@@ -1,3 +1,4 @@
+-- depends_on: {{ ref('internal') }}
 {{ config(
     materialized='udf',
     parameter_list='prerelease STRING',

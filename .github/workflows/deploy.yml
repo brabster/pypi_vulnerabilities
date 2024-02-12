@@ -31,11 +31,10 @@ jobs:
         with:
           version: '>= 363.0.0'
       - name: ensure prod dataset exists
-        run: |
-          source .venv/bin/activate
-          source .envs/prod/.env
-          dbt run-operation ensure_target_dataset_exists
-          bq update --source .envs/prod/dataset_acl.json "${DBT_PROJECT}:${DBT_DATASET}"
+        uses: ./.github/actions/dbt_build
+        with:
+          env: prod
+          dbt_extra_args: -s datasets
       - name: load prod safety db
         run: |
           source .venv/bin/activate
@@ -45,10 +44,12 @@ jobs:
         uses: ./.github/actions/dbt_build
         with:
           env: prod
+          dbt_extra_args: --exclude datasets
       - name: dbt prod contracts
         uses: ./.github/actions/dbt_contract_test
         with:
           env: prod
+          dbt_extra_args: --exclude datasets
       - name: upload prod pages
         uses: actions/upload-pages-artifact@v3
         with:

@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: vulnerabilities_by_download
+    description: Aggregated known vulnerabilities for each downloaded package version per day
+    columns:
+      - name: download_date
+        description: Date on which package was downloaded
+      - name: package
+        description: Package identification string
+      - name: package_version
+        description: Package version string
+      - name: installer
+        description: Installer identification string
+      - name: download_count
+        description: Number of recorded downloads
+      - name: vulnerabilities
+        description: Array of vulnerabilities known to affect the package version on the download date. Empty if no vulnerabilities for this package and version.
+      - name: maybe_cves.cve
+        description: CVE identifier
+      - name: maybe_cves.commit_date
+        description: Commit date for Safety DB record at the given download date
+      - name: cve_count
+        description: Number of CVEs recorded for the package version on the download date
+      - name: was_vulnerable
+        description: TRUE if there was at least one vulnerability recorded for the package version on the download date 
+      

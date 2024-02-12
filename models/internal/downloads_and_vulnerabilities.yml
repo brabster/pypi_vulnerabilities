@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: downloads_with_vulnerabilities
+  - name: downloads_and_vulnerabilities
     description: Joins Safety vulnerabilities to PyPI download metadata using semver matching functions.
     columns:
       - name: download_date

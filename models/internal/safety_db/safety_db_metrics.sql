@@ -1,3 +1,4 @@
+-- depends_on: {{ ref('internal') }}
 SELECT
     commit_timestamp,
     TO_JSON_STRING(commit) commit_details,

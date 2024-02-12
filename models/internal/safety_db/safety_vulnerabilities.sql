@@ -1,3 +1,4 @@
+-- depends_on: {{ ref('internal') }}
 WITH dated AS (
   SELECT
     package,

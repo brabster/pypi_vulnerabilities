@@ -7,7 +7,7 @@ WITH grouped_vulnerabilities AS (
         installer,
         download_count,
         ARRAY_AGG(STRUCT(cve, commit_date, was_known_vulnerable_when_downloaded)) maybe_cves
-    FROM {{ ref('downloads_with_vulnerabilities') }}
+    FROM {{ ref('downloads_and_vulnerabilities') }}
     WHERE cve IS NOT NULL
     GROUP BY
         download_date,

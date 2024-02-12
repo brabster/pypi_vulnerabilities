@@ -1,3 +1,4 @@
+-- depends_on: {{ ref('internal') }}
 SELECT
     *,
     DATE(timestamp) AS download_date,
