@@ -30,10 +30,11 @@ models:
     relation: true
     columns: true
   product:
-    datasets:
-      grant_public: '{{ env_var("DBT_PUBLIC", "False") | as_bool }}'
     internal:
       +schema: internal
     udf_tests:
       materialized: ephemeral
     
+on-run-start:
+  - '{{ dataset(location="US", description="PyPI Vulnerabilities Published Dataset", labels=[("stability", "stable"), ("data_classification", "public")], grant_public=True)  }}'
+  - '{{ dataset(sub_dataset_name="internal", location="US", description="PyPI Vulnerabilities Internal Dataset", labels=[("stability", "unstable"), ("data_classification", "public")], grant_public=True) }}'

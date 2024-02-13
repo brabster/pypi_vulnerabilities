@@ -1,4 +1,4 @@
--- depends_on: {{ ref('default') }}
+
 {{ config(
     materialized='udf',
     parameter_list='spec STRING, version STRING',

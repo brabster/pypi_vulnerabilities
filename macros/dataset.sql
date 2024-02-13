@@ -1,16 +1,14 @@
-{% materialization dataset, adapter='bigquery' %}
-{%- set schema_name = this.schema if this.identifier == 'default' else this.schema ~ '_' ~ this.identifier -%}
-{%- set schema_ref = adapter.quote(this.database ~ '.' ~ schema_name) -%}
-
-{%- set description=config.get('description') -%}
-{%- set location=config.get('location') -%}
+{% macro dataset(location, description, labels, grant_public=False, sub_dataset_name=None) %}
+{%- set dataset_name = target.schema ~ '_' ~ sub_dataset_name if sub_dataset_name else target.schema -%}
+{%- set dataset_ref = adapter.quote(target.database ~ '.' ~ dataset_name) -%}
+{%- set all_labels = labels + [('managed_by', 'dbt'), ('parent_schema', target.schema)] -%}
 
 {%- set dataset_exists_sql -%}
 SELECT
   1
 FROM
-  `{{ this.database }}`.`region-{{ location }}`.INFORMATION_SCHEMA.SCHEMATA
-WHERE schema_name = '{{ schema_name }}'
+  `{{ target.database }}`.`region-{{ location }}`.INFORMATION_SCHEMA.SCHEMATA
+WHERE schema_name = '{{ dataset_name }}'
 {%- endset -%}
 
 {%- set dataset_exists = run_query(dataset_exists_sql) | length > 0 -%}
@@ -19,11 +17,11 @@ WHERE schema_name = '{{ schema_name }}'
 {%- set location_option = '' if dataset_exists else "location='" ~ location ~ "'," -%}
 
 {%- set update_sql -%}
-{{ sql_op }} {{ schema_ref }}
+{{ sql_op }} {{ dataset_ref }}
 {{ options }} (
     description='{{ description }}',
     {{ location_option }}
-    labels=[('managed_by', 'dbt')]
+    labels={{ all_labels }}
 ) 
 {%- endset -%}
 
@@ -31,13 +29,11 @@ WHERE schema_name = '{{ schema_name }}'
   {{ update_sql }}
 {%- endcall %}
 
-{%- set is_public = config.get('grant_public') -%}
-
 {%- set grant_option = 'GRANT' if is_public else 'REVOKE' -%}
 {%- set grant_to_from = 'TO' if is_public else 'FROM' -%}
 {%- set grant_sql -%}
   {{ grant_option }} `roles/bigquery.dataViewer`
-  ON SCHEMA {{ schema_ref }}
+  ON SCHEMA {{ dataset_ref }}
   {{ grant_to_from }} 'specialGroup:allUsers'
 {%- endset -%}
 
@@ -45,6 +41,4 @@ WHERE schema_name = '{{ schema_name }}'
   {{ grant_sql }}
 {%- endcall %}
 
-{{ return({'relations': []}) }}
-
-{% endmaterialization %}
+{% endmacro %}
