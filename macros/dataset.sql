@@ -1,7 +1,12 @@
-{% macro dataset(location, description, labels, grant_public=False, sub_dataset_name=None) %}
+{% macro dataset(description, labels, grant_public=False, sub_dataset_name=None, location=None) %}
+{%- set location = location or var('location') -%}
+{%- set description = description ~ '\n\nDocumentation at ' ~ var('docs_url') -%}
 {%- set dataset_name = target.schema ~ '_' ~ sub_dataset_name if sub_dataset_name else target.schema -%}
 {%- set dataset_ref = adapter.quote(target.database ~ '.' ~ dataset_name) -%}
-{%- set all_labels = labels + [('managed_by', 'dbt'), ('parent_schema', target.schema)] -%}
+{%- set all_labels = labels + [
+  ('managed_by', 'dbt'),
+  ('parent_schema', target.schema)
+] -%}
 
 {%- set dataset_exists_sql -%}
 SELECT
@@ -19,7 +24,7 @@ WHERE schema_name = '{{ dataset_name }}'
 {%- set update_sql -%}
 {{ sql_op }} {{ dataset_ref }}
 {{ options }} (
-    description='{{ description }}',
+    description='''{{ description }}''',
     {{ location_option }}
     labels={{ all_labels }}
 ) 

@@ -8,6 +8,10 @@ config-version: 2
 # This setting configures which "profile" dbt uses for this project.
 profile: 'current'
 
+vars:
+  docs_url: https://github.com/brabster/pypi_vulnerabilities
+  location: '{{ env_var("DBT_LOCATION") }}'
+
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You probably won't need to change these!
@@ -36,5 +40,5 @@ models:
       materialized: ephemeral
     
 on-run-start:
-  - '{{ dataset(location="US", description="PyPI Vulnerabilities Published Dataset", labels=[("stability", "stable"), ("data_classification", "public")], grant_public=True)  }}'
-  - '{{ dataset(sub_dataset_name="internal", location="US", description="PyPI Vulnerabilities Internal Dataset", labels=[("stability", "unstable"), ("data_classification", "public")], grant_public=True) }}'
+  - '{{ dataset(description="PyPI Vulnerabilities Published Dataset", labels=[("stability", "stable"), ("data_classification", "public")], grant_public=True)  }}'
+  - '{{ dataset(sub_dataset_name="internal", description="PyPI Vulnerabilities Internal Dataset", labels=[("stability", "unstable"), ("data_classification", "public")], grant_public=True) }}'
