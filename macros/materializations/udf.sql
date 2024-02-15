@@ -8,7 +8,9 @@
 {%- set create_sql -%}
 CREATE OR REPLACE FUNCTION {{ target }}({{ parameter_list }})
 RETURNS {{ ret }}
-OPTIONS (description='{{ description }}')
+OPTIONS (
+  description='{{ description }}'
+)
 AS (
   {{ sql }}
 );
