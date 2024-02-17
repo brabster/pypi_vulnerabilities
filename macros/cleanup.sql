@@ -85,10 +85,10 @@
     {%- set drop_tables_sql = drop_orphaned_relations_of_type(materialized='table', bq_type='BASE TABLE', schemas_in_scope=schemas_in_scope) -%}
 
     {%- if is_dry_run -%}
-        {%- do log('Cleanup - dry run') -%}
-        {%- do log('Cleanup - udfs: ' ~ drop_udf_sql) -%}
-        {%- do log('Cleanup - views: ' ~ drop_views_sql) -%}
-        {%- do log('Cleanup - tables: ' ~ drop_tables_sql) -%}
+        {%- do print('Cleanup - dry run') -%}
+        {%- do print('Cleanup - udfs: ' ~ drop_udf_sql) -%}
+        {%- do print('Cleanup - views: ' ~ drop_views_sql) -%}
+        {%- do print('Cleanup - tables: ' ~ drop_tables_sql) -%}
     {%- else -%}
         {%- call statement('cleanup - udfs') -%}
             SELECT 1;
