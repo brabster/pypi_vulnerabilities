@@ -53,7 +53,7 @@ jobs:
         uses: ./.github/actions/dbt_command
         with:
           env: prod
-          command: "dbt run-operation cleanup --args '{dry_run: True}'"
+          command: "dbt run-operation cleanup --args '{dry_run: False}'"
 
       - name: dbt prod contracts
         uses: ./.github/actions/dbt_contract_test
