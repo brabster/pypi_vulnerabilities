@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: safety_db
     database: '{{ target.database }}'
-    schema: '{{ target.schema }}'
+    schema: '{{ target.schema }}_internal'
     description: Contents of public Safety DB, see https://github.com/pyupio/safety-db
     tables:
       - name: safety_db_history

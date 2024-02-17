@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: billing
+    database: tw-billing-413222
+    schema: billing_us
+    description: Billing information related to the project
+    tables:
+      - name: pypi_vulns
+  

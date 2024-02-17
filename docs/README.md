@@ -14,7 +14,7 @@ Investigating downloads of vulnerable Python packages from PyPI.
 # Generated Resources
 
 - DBT Documentation on [GitHub Pages](https://brabster.github.io/pypi_vulnerabilities).
-- Public Dataset on BigQuery US Location: `pypi-vulns.published_us`
+- Public Dataset on BigQuery US Location: [`pypi-vulns.published_us`](https://console.cloud.google.com/bigquery?p=pypi-vulns&d=published_us&page=dataset)
 
 # Stability and Versioning
 

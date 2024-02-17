@@ -9,6 +9,10 @@ inputs:
     required: false
     default: ''
     description: Extra CLI arguments to supply to DBT
+  dbt_cleanup_dry_run:
+    required: false
+    default: True
+    description: Whether to execute cleanup operations, or just to log
 runs:
   using: composite
   steps:
@@ -18,6 +22,7 @@ runs:
           source .venv/bin/activate
           source .envs/${{ inputs.env }}/.env
           dbt build --exclude contracts ${{ inputs.dbt_extra_args }}
+          dbt run_operation cleanup --args '{dry_run: ${{ inputs.dbt_cleanup_dry_run }}}'
           dbt docs generate
       
     - name: upload target artifacts
