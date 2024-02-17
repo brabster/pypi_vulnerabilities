@@ -1,3 +1,5 @@
 packages:
   - package: dbt-labs/dbt_utils
     version: ">=1.1.1"
+  - git: https://github.com/brabster/dbt_materialized_udf.git
+    revision: f54b2266abeaf788cf7a350f0f0678020d9dedbf
