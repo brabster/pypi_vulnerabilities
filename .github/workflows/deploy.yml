@@ -30,30 +30,42 @@ jobs:
       - uses: google-github-actions/setup-gcloud@v2
         with:
           version: '>= 363.0.0'
+
       - name: ensure prod dataset exists
         uses: ./.github/actions/dbt_command
         with:
           env: prod
           command: dbt run-operation ensure_datasets
+
       - name: load prod safety db
         run: |
           source .venv/bin/activate
           source .envs/prod/.env
           python etl/safety_db/load_missing_partitions.py
+
       - name: dbt prod build
         uses: ./.github/actions/dbt_build
         with:
           env: prod
           dbt_extra_args: --exclude datasets
+
+      - name: dbt prod cleanup
+        uses: ./.github/actions/dbt_command
+        with:
+          env: prod
+          command: "dbt run-operation cleanup --args '{dry_run: True}'"
+
       - name: dbt prod contracts
         uses: ./.github/actions/dbt_contract_test
         with:
           env: prod
           dbt_extra_args: --exclude datasets
+
       - name: upload prod pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: target
+
       - name: deploy prod pages
         uses: actions/deploy-pages@v4
         
