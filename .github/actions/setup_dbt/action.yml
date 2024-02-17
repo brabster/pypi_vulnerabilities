@@ -1,6 +1,7 @@
 
 name: Setup DBT in virtualenv
 description: Sets up environment suitable for DBT
+
 runs:
   using: composite
   steps:
@@ -24,4 +25,3 @@ runs:
       run: |
         source .venv/bin/activate
         safety check
-

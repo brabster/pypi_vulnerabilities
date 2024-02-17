@@ -1,0 +1,22 @@
+
+name: dbt command in venv
+description: Runs dbt command from venv
+inputs:
+  env:
+    required: true
+    description: Environment file to source
+  command:
+    required: true
+    description: Command to run
+runs:
+  using: composite
+  steps:
+    - name: (${{ inputs.command }}) in ${{ inputs.env }}
+      shell: bash
+      run: |
+          source .venv/bin/activate
+          source .envs/${{ inputs.env }}/.env
+          ${{ inputs.command }}
+
+
+

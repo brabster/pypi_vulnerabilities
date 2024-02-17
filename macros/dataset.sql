@@ -7,6 +7,7 @@
   ('managed_by', 'dbt'),
   ('parent_schema', target.schema)
 ] -%}
+{%- set is_public = grant_public | as_bool -%}
 
 {%- set dataset_exists_sql -%}
 SELECT
@@ -30,9 +31,7 @@ WHERE schema_name = '{{ dataset_name }}'
 ) 
 {%- endset -%}
 
-{%- call statement('main') -%}
-  {{ update_sql }}
-{%- endcall %}
+{%- do run_query(update_sql) -%}
 
 {%- set grant_option = 'GRANT' if is_public else 'REVOKE' -%}
 {%- set grant_to_from = 'TO' if is_public else 'FROM' -%}
@@ -42,8 +41,6 @@ WHERE schema_name = '{{ dataset_name }}'
   {{ grant_to_from }} 'specialGroup:allUsers'
 {%- endset -%}
 
-{%- call statement('grant') -%}
-  {{ grant_sql }}
-{%- endcall %}
+{%- do run_query(grant_sql) -%}
 
 {% endmacro %}

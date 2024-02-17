@@ -31,10 +31,10 @@ jobs:
         with:
           version: '>= 363.0.0'
       - name: ensure prod dataset exists
-        uses: ./.github/actions/dbt_build
+        uses: ./.github/actions/dbt_command
         with:
           env: prod
-          dbt_extra_args: -s datasets
+          command: dbt run-operation ensure_datasets
       - name: load prod safety db
         run: |
           source .venv/bin/activate
