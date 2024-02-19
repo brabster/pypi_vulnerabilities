@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: daily_billing
+    description: Usage and billing information aggregated on a daily basis
+    tests:
+      - dbt_utils.recency:
+          datepart: day
+          field: usage_date
+          interval: 3
+    columns:
+      - name: usage_date
+        description: Date on which usage occurred and cost incurred
+      - name: project_id
+        description: GCP project usage was billed to
+      - name: service
+        description: GCP service used eg. BigQuery
+      - name: sku
+        description: Type of cost incurred eg. Analysis
+      - name: location
+        description: Location of usage, eg. US, EU
+      - name: usage
+        description: Total usage on this date
+      - name: cost_gbp
+        description: Cost incurred in GBP
