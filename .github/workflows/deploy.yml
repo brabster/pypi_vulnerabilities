@@ -41,7 +41,7 @@ jobs:
         run: |
           source .venv/bin/activate
           source .envs/prod/.env
-          python etl/safety_db/load_missing_partitions.py
+          python etl/safety_db/load_missing_partitions.py --dataset ${DBT_DATASET}_internal
 
       - name: dbt prod build
         uses: ./.github/actions/dbt_build
