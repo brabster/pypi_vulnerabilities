@@ -33,6 +33,10 @@ models:
           - not_null
           - dbt_utils.accepted_range:
               min_value: 0
+      - name: fix_was_available
+        description: Whether a fix appeared to be available at the time, based on the version constraints
+        tests:
+          - not_null
       - name: is_first_commit
         description: True when this is the first appearance of the vulnerability for the package and version specification
         tests:
