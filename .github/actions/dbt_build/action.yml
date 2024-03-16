@@ -25,7 +25,7 @@ runs:
           dbt docs generate
       
     - name: upload target artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: ${{ always() }}
       with:
         name: dbt_artifacts_${{ inputs.env }}
