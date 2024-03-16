@@ -1,6 +1,11 @@
 Investigating downloads of vulnerable Python packages from PyPI.
 
+![last run](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbrabster.github.io%2Fpypi_vulnerabilities%2Fcatalog.json&query=%24.metadata.generated_at&label=last%20run)
+
+![dbt version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbrabster.github.io%2Fpypi_vulnerabilities%2Fcatalog.json&query=%24.metadata.dbt_version&label=dbt%20version)
+
 [![deploy-to-gcp](https://github.com/brabster/pypi_vulnerabilities/actions/workflows/deploy.yml/badge.svg)](https://github.com/brabster/pypi_vulnerabilities/actions/workflows/deploy.yml)
+
 
 # Supporters
 
