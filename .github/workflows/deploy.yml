@@ -47,7 +47,6 @@ jobs:
         uses: ./.github/actions/dbt_build
         with:
           env: prod
-          dbt_extra_args: --exclude datasets
 
       - name: dbt prod cleanup
         uses: ./.github/actions/dbt_command
@@ -59,7 +58,6 @@ jobs:
         uses: ./.github/actions/dbt_contract_test
         with:
           env: prod
-          dbt_extra_args: --exclude datasets
 
       - name: upload prod pages
         uses: actions/upload-pages-artifact@v3
