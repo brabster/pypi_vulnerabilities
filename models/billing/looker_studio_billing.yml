@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: looker_studio_billing
+    description: Billing information for queries associated with Looker Studio dashboards
+    columns:
+      - name: usage_date
+        description: Date on which usage occurred and cost incurred
+      - name: total_queries
+        description: Queries attributed to Looker Studio
+      - name: cache_hits
+        description: How many queries were returned from the cache and so incurred no cost
+      - name: cache_hit_proportion
+        description: What proportion of the queries were cache hits?
+      - name: total_bytes_billed
+        description: Total bytes billed
+      - name: total_gb_billed
+        description: Total gigabytes billed
+      - name: mean_gb_billed
+        description: Mean gigabytes billed
+      - name: median_gb_billed
+        description: Median gigabytes billed
+      - name: approx_query_cost_usd
+        description: Approximate query cost based on current on-demand pricing
+      
