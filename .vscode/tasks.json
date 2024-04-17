@@ -9,7 +9,8 @@
       "command": "${workspaceFolder}/.dev_scripts/init_and_update.sh",
       "runOptions": {
         "runOn": "folderOpen"
-      }
+      },
+      "problemMatcher": []
     }
   ]
 }

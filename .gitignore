@@ -1,5 +1,5 @@
 # Python virtualenv files
-/.venv/
+/venv/
 
 # User's environment settings
 /.env

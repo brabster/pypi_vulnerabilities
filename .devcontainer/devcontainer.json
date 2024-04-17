@@ -1,0 +1,7 @@
+{
+    "image": "mcr.microsoft.com/devcontainers/python:3.11",
+    "postCreateCommand": ".devcontainer/post_create.sh",
+    "remoteEnv": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "/tmp/sa.json"
+    }
+}
