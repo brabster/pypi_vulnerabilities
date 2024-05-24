@@ -12,5 +12,5 @@ current:
       project: "{{ env_var('DBT_PROJECT') }}"
       threads: "{{ env_var('DBT_THREADS', '8') | int }}"
       type: bigquery
-      maximum_bytes_billed: "{{ env_var('DBT_MAX_GIGABYTES_BILLED', '1000') | int * (1024 * 1024 * 1024) }}" # 50GB billable bytes estimate limit
+      maximum_bytes_billed: "{{ env_var('DBT_MAX_GIGABYTES_BILLED', '50') | int * (1024 * 1024 * 1024) }}" # 50GB limit default, overridden in actions variables
   target: current
