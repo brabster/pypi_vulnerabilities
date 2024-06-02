@@ -3,3 +3,6 @@ security:
     '67599':
       reason: do not use a private index
       expires: 2024-07-02
+    '70612':
+      reason: Jinja2 environment not exposed to external input
+      expires: 2024-07-02
