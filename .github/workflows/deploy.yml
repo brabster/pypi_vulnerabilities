@@ -6,7 +6,7 @@ on:
     paths-ignore:
       - 'docs/**'
   schedule:
-    - cron: '0 4 * * *'
+    - cron: '0 4 * * SAT'
 jobs:
   deploy:
     runs-on: ubuntu-latest
