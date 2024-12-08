@@ -1,8 +1,4 @@
 security:
   ignore-vulnerabilities:
-    '70612':
-      reason: Jinja2 environment not exposed to external input
-      expires: 2024-12-05
     '73530':
       reason: No details of vulnerability
-      expires: 2024-12-01
