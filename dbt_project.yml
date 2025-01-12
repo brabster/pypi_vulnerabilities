@@ -5,6 +5,10 @@ name: 'product' # only referred to in this config file
 version: '1.0.0'
 config-version: 2
 
+flags:
+  send_anonymous_usage_stats: false
+  use_colors: true
+
 # This setting configures which "profile" dbt uses for this project.
 profile: 'current'
 
@@ -27,6 +31,8 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "dbt_packages"
 
 models:
+  +docs:
+    node_color: "#0066cc"
   +labels:
     stability: unstable
     data_classification: public
@@ -34,10 +40,26 @@ models:
     relation: true
     columns: true
   product:
+    published:
+      udfs:
+        +docs:
+          node_color: "#006600"
     internal:
       +schema: internal
+      udfs:
+        +docs:
+          node_color: "#006600"
     billing:
       +schema: billing
     udf_tests:
       materialized: ephemeral
-    
+      +docs:
+        node_color: "#009900"
+
+tests:
+  product:
+    udfs:
+      +docs:
+        node_color: "#009900"
+    +docs:
+      node_color: "#3399ff"
