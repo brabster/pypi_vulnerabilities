@@ -30,9 +30,11 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+# colours based on https://doc.bplogix.com/content/implementersreference/accessibility_principle_perceivable_contrast.htm
+
 models:
   +docs:
-    node_color: "#0066cc"
+    node_color: "#000066"
   +labels:
     stability: unstable
     data_classification: public
@@ -43,23 +45,26 @@ models:
     published:
       udfs:
         +docs:
-          node_color: "#006600"
+          node_color: "#333333"
     internal:
       +schema: internal
       udfs:
         +docs:
-          node_color: "#006600"
+          node_color: "#333333"
     billing:
       +schema: billing
     udf_tests:
       materialized: ephemeral
       +docs:
-        node_color: "#009900"
+        node_color: "#555555"
 
 tests:
   product:
+    contracts:
+      +docs:
+        node_color: "#B10000"
     udfs:
       +docs:
-        node_color: "#009900"
+        node_color: "#555555"
     +docs:
-      node_color: "#3399ff"
+      node_color: "#0000FF"
