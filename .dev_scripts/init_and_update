@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+PIP_REQUIRE_VIRTUALENV=true # have pip abort if we try to install outside a venv
+PROJECT_ROOT=$(realpath $(dirname "$0")/..)
+VENV_PATH=venv
+IS_RUNNING_IN_VENV="$(python -c 'import sys; print(sys.prefix != sys.base_prefix)')"
+
+# if [ "$(realpath $(pwd))" == "${PROJECT_ROOT}" ]; then
+#     echo "No venv at project root"
+#     exit 0
+# fi
+
+if [ "${IS_RUNNING_IN_VENV}" == "False" ]; then
+    echo "Not in virtualenv, setting up";
+    python -m venv ${VENV_PATH}
+    source ${VENV_PATH}/bin/activate
+fi
+
+echo "install or upgrade system packages"
+python -m pip install --upgrade pip setuptools
+
+echo "install or upgrade application packages"
+if [[ -f requirements.txt ]]; then pip install -U -r requirements.txt; fi
+if [[ -f requirements_private.txt ]]; then pip install -U -r requirements_private.txt; fi
+if [[ -f pyproject.toml ]]; then pip install -U .; fi
+
+set +e
+snyk test; snyk_test_status=$?
+case $snyk_test_status in
+    0) echo "Snyk return OK";;
+    2) echo "SNYK_TOKEN not set, cannot scan for vulnerabilities";;
+    *) echo "Non-zero snyk code ${snyk_test_status}, erroring out" && exit 1;;
+esac
+set -e
+
+echo "checking for dbt command"
+if command -v dbt; then
+    echo "updating dbt dependencies"
+    dbt deps
+fi

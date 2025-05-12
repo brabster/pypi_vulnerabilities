@@ -1,7 +1,15 @@
 {
-    "image": "mcr.microsoft.com/devcontainers/python:3.11",
-    "postCreateCommand": ".devcontainer/post_create.sh",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "containerEnv": {
+        "GOOGLE_CLOUD_PROJECT": "pypi-vulns",
+        "DBT_BQ_LOCATION": "EU",
+        "DBT_BQ_DATASET": "sandbox_dbt",
+        "PIP_REQUIRE_VIRTUALENV": "true"
+    },
     "remoteEnv": {
-        "GOOGLE_APPLICATION_CREDENTIALS": "/tmp/sa.json"
-    }
+        "PATH": "${containerEnv:PATH}:${containerWorkspaceFolder}/.dev_scripts"
+    },
+    "postAttachCommand": ".devcontainer/init"
 }

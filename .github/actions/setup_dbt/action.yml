@@ -9,7 +9,7 @@ runs:
       env:
         PIP_REQUIRE_VIRTUALENV: false
       with:
-        python-version: '3.11' # dbt does not support 3.12 yet
+        python-version: '3.12'
         check-latest: true
     - name: setup-python-venv
       shell: bash
@@ -20,8 +20,9 @@ runs:
         pip install -U setuptools pip safety
         pip install -U -r requirements.txt
         dbt deps
-    # - name: safety-check maybe issue
-    #   shell: bash
-    #   run: |
-    #     source .venv/bin/activate
-    #     safety check
+    
+    - name: s
+      shell: bash
+      run: |
+        source .venv/bin/activate
+        safety check

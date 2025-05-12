@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+echo "Applying OS updates..."
+sudo apt update && sudo apt -y upgrade
