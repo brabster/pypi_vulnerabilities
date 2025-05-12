@@ -1,0 +1,60 @@
+name: Run CLI task in venv
+
+inputs:
+  working-dir:
+    description: directory to cd into
+    required: false
+    default: '.'
+  script:
+    description: script and any required arguments
+    required: true
+  timeout-mins:
+    description: timeout after mins
+    required: false
+    default: 60
+
+runs:
+  using: composite
+  steps:
+    - name: python_task
+      shell: bash
+      run: |-
+        python -m venv venv
+        source venv/bin/activate
+        source .envs/prod/.env
+
+        cd ${{ inputs.working-dir }}
+
+        # only need to do this once per run
+        mkdir -p target
+        if [[ -f target/.resolved_dependencies.txt ]]; then
+          echo "Dependencies already resolved"
+        else
+          echo "Installing and updating build tooling"
+
+          pip install -q -U setuptools pip
+
+          curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
+          chmod +x ./snyk
+                  
+          if [[ -f requirements.txt ]]; then echo "Installing from requirements.txt"; pip install -q -U -r requirements.txt; fi
+          if [[ -f requirements_private.txt ]]; then echo "Installing from requirements_private.txt"; pip install -q -U -r requirements_private.txt; fi
+          if [[ -f pyproject.toml ]]; then echo "Installing from pyproject.toml"; pip install -q -U .; pip freeze > requirements.txt; fi
+          
+          echo "Resolved dependencies"
+          pip freeze > target/.resolved_dependencies.txt
+
+          # NOTE:
+          # Requires SNYK_TOKEN to be set in the calling workflow
+          if [[ -f requirements.txt || -f requirements_private.txt ]]; then
+            ./snyk monitor
+          fi
+
+        fi
+
+        cat > action.sh <<EOL
+        ${{ inputs.script }}
+        EOL
+        chmod 755 action.sh
+
+        timeout ${{ inputs.timeout-mins }}m ./action.sh || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi

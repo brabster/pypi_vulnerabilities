@@ -1,5 +1,7 @@
-name: deploy-to-gcp
+name: deploy-to-gcp-new
+
 on:
+  workflow_dispatch: {}
   push:
     branches:
       - main
@@ -7,6 +9,7 @@ on:
       - 'docs/**'
   schedule:
     - cron: '0 4 * * SAT'
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -20,45 +23,61 @@ jobs:
         actions: read
         pages: write
     steps:
-      - uses: actions/checkout@v4
-      - name: setup dbt
-        uses: ./.github/actions/setup_dbt
-      - uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
-      - uses: google-github-actions/setup-gcloud@v2
-        with:
-          version: '>= 363.0.0'
+      - name: checkout
+        uses: actions/checkout@v4
 
-      - name: ensure prod dataset exists
-        uses: ./.github/actions/dbt_command
+      - name: setup_workflow
+        uses: ./.github/actions/setup_default_workflow
+      
+      - name: ensure_schema_objects
+        uses: ./.github/actions/run_cli
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          env: prod
-          command: dbt run-operation ensure_datasets
-
+          script: |
+            dbt debug
+            dbt deps
+            dbt run-operation ensure_datasets
+      
       - name: load prod safety db
-        run: |
-          source .venv/bin/activate
-          source .envs/prod/.env
-          python etl/safety_db/load_missing_partitions.py --dataset ${DBT_DATASET}_internal
-
+        uses: ./.github/actions/run_cli
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          script: |
+            python etl/safety_db/load_missing_partitions.py --dataset ${DBT_DATASET}_internal
+      
       - name: dbt prod build
-        uses: ./.github/actions/dbt_build
+        uses: ./.github/actions/run_cli
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          env: prod
-
-      - name: dbt prod cleanup
-        uses: ./.github/actions/dbt_command
-        with:
-          env: prod
-          command: "dbt run-operation cleanup --args '{dry_run: False}'"
+          script: |
+            dbt debug
+            dbt deps
+            dbt build --exclude contracts
+            dbt run-operation cleanup --args '{dry_run: False}'
+            dbt docs generate
 
       - name: dbt prod contracts
-        uses: ./.github/actions/dbt_contract_test
+        uses: ./.github/actions/run_cli
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          env: prod
-
+          script: |
+            dbt debug
+            dbt deps
+            dbt build -s contracts
+            
+      - name: upload target artifacts
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: dbt_artifacts
+          path: |
+            target
+            logs
+            
       - name: upload prod pages
         uses: actions/upload-pages-artifact@v3
         with:
@@ -66,4 +85,3 @@ jobs:
 
       - name: deploy prod pages
         uses: actions/deploy-pages@v4
-        
