@@ -63,12 +63,12 @@ graph LR
     end
 
     %% Flows
-    developer -- "1 - Invokes `dbt run`" --> cli
+    developer -- "1 - Invokes dbt run" --> cli
     vcs -- "2 - Project Code Pulled/Checked Out" --> projectFiles
     projectFiles -- "3 - Reads Project Configuration & Models" --> cli
     profilesYML -- "4 - Reads Connection Profile & Credentials" --> cli
     packagesYML -- "5 - Reads Package Definitions" --> cli
-    cli -- "6 - (If `dbt deps` needed) Fetches Packages" --> dbtPackages
+    cli -- "6 - (If dbt deps needed) Fetches Packages" --> dbtPackages
     dbtHub -- "6a - Source for dbt Hub Packages" --> cli
     gitRepos -- "6b - Source for Git Packages" --> cli
     dbtPackages -- "7 - Macros/Code Used by" --> cli
