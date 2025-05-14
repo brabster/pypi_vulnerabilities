@@ -132,12 +132,31 @@ This section outlines common threat areas relevant to `dbt-core` usage. Organiza
 
 ### 3.3 Dependency Management (dbt Packages via `packages.yml`)
 * **Considerations:**
-    * What is the process for vetting and approving new third-party dbt packages?
-    * Are package versions pinned in `packages.yml`?
-    * Is a `package-lock.yml` file (if applicable for dbt version) committed to version control?
-    * What is the risk of using a compromised or malicious dbt package?
-* **Example Threats:** Using outdated packages with known vulnerabilities, malicious code in third-party packages, unexpected breaking changes from unpinned package versions.
-* **Example Mitigations:** Vet package sources, pin package versions (to specific SHAs for Git packages), code review of package updates, regular vulnerability scanning of dependencies.
+    * What is the process for vetting and approving new third-party dbt packages from sources like dbt Hub or external Git repositories?
+    * Are package versions pinned (e.g., to specific versions or commit SHAs) in `packages.yml`?
+    * Is a `package-lock.yml` file (if applicable for the `dbt-core` version being used) generated and committed to version control to ensure reproducible dependency installation?
+    * What is the risk of using a compromised, malicious, or simply outdated/unmaintained dbt package?
+    * How are updates to `dbt-core` itself and its underlying Python dependencies managed and scanned?
+* **Example Threats:**
+    * Using outdated `dbt-core` or dbt packages with known vulnerabilities.
+    * Malicious SQL or macro code within a third-party dbt package leading to data exfiltration, corruption, or unauthorized actions.
+    * Malicious Python code within dbt Python models (if used by a package) or in `dbt-core` itself.
+    * Unexpected breaking changes or regressions from unpinned or poorly maintained package versions.
+    * Dependency confusion if package sources are not clearly specified.
+* **Example Mitigations:**
+    * **Vet Package Sources:** Prefer packages from trusted maintainers (e.g., `dbt-labs`) and review the source code of less established community packages.
+    * **Pin Package Versions:** Pin dbt package versions in `packages.yml` (to specific versions for Hub packages, and ideally to commit SHAs for Git-sourced packages).
+    * **Use and Commit Lockfiles:** If using `dbt-core` v1.7+, commit the `package-lock.yml` file to version control for reproducible installs of dbt Hub packages.
+    * **Code Review for Packages:** Conduct a review of a new package's code (especially macros and any Python models) before integration, and review changes upon updates.
+    * **Regular Dependency Scanning & Review:**
+        * **For `dbt-core` and its Python dependencies:** Use standard Python Software Composition Analysis (SCA) tools (e.g., Snyk, `safety`) to scan for known vulnerabilities (CVEs) in the `dbt-core` version and its underlying Python libraries. Keep `dbt-core` updated.
+        * **For dbt packages (SQL/Jinja/YAML):** "Scanning" involves a multi-faceted approach:
+            * Use SQL linters (e.g., SQLFluff) to check for anti-patterns or overly complex/risky SQL.
+            * Manually review macro logic for potential security concerns (e.g., unsafe dynamic SQL generation, unexpected DDL/DML).
+            * Monitor the SQL generated and run by dbt (via warehouse query logs) after introducing or updating packages, especially in a staging environment.
+        * **For dbt Python models (if used within packages):** Scan the Python code using Python SCA and Static Application Security Testing (SAST) tools (e.g., Bandit).
+    * **Principle of Least Privilege:** Ensure the dbt user/role in the data warehouse has only the minimum necessary permissions, limiting the potential impact of a compromised package (see Section 3.5).
+    * **Staging/Testing:** Test new or updated packages thoroughly in a non-production environment before deploying to production.
 
 ### 3.4 CI/CD Pipeline Security for dbt Execution
 * **Considerations:**
