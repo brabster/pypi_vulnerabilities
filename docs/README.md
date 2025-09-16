@@ -21,6 +21,10 @@ Investigating downloads of vulnerable Python packages from PyPI.
 - DBT Documentation on [GitHub Pages](https://brabster.github.io/pypi_vulnerabilities).
 - Public Dataset on BigQuery US Location: [`pypi-vulns.published_us`](https://console.cloud.google.com/bigquery?p=pypi-vulns&d=published_us&page=dataset)
 
+# Architecture
+
+See the high-level system overview and data flow in [ARCHITECTURE.md](../ARCHITECTURE.md).
+
 # Stability and Versioning
 
 - Please consider the BigQuery dataset structure and schema to be experimental and subject to unannounced breaking changes at this stage. If you wish for me to hold something stable, please raise an issue to let me know.
