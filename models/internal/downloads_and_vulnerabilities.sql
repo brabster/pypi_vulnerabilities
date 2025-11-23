@@ -8,7 +8,7 @@ SELECT
     vuln.cve,
     vuln.commit_date,
     {{ ref('matches_multi_spec') }}(vuln.specs, download.package_version) was_known_vulnerable_when_downloaded
-FROM {{ ref('daily_package_downloads') }} download
+FROM {{ ref('daily_package_downloads_optimised') }} download
     LEFT OUTER JOIN {{ ref('safety_vulnerabilities') }} vuln
         ON download.package = vuln.package
             AND download.download_date >= vuln.commit_date

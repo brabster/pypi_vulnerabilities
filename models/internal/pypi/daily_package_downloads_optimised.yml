@@ -6,6 +6,7 @@ models:
       grants:
         roles/bigquery.dataViewer:
           - allAuthenticatedUsers
+      where: "download_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 14 DAY)"
     description: Download counts for packages (optimised with partitioning and clustering)
     columns:
       - name: download_date
