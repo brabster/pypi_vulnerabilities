@@ -2,7 +2,7 @@
 WITH total AS (
     SELECT
         SUM(download_count) downloads
-    FROM {{ ref('daily_package_downloads') }}
+    FROM {{ ref('daily_package_downloads_optimised') }}
     WHERE download_date = '2023-11-05'
 )
 
