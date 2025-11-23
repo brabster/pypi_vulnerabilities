@@ -17,12 +17,6 @@
 
 {% set latest_partition_date = dbt_utils.get_single_value(latest_partition_date_sql, '1970-01-01') %}
 
-{% set old_table_latest_date_sql %}
-  SELECT MAX(download_date) FROM {{ ref('daily_package_downloads') }}
-{% endset %}
-
-{% set old_table_latest_date = dbt_utils.get_single_value(old_table_latest_date_sql, '1970-01-01') %}
-
 {% if is_incremental() %}
   {# Incremental run: process only new data from source #}
   SELECT
@@ -42,6 +36,13 @@
 
 {% else %}
   {# Initial run: bootstrap from existing daily_package_downloads table #}
+  
+  {% set old_table_latest_date_sql %}
+    SELECT COALESCE(MAX(download_date), DATE('1970-01-01')) FROM {{ ref('daily_package_downloads') }}
+  {% endset %}
+  
+  {% set old_table_latest_date = dbt_utils.get_single_value(old_table_latest_date_sql, '1970-01-01') %}
+  
   SELECT
     download_date,
     package,
