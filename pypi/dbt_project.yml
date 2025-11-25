@@ -1,0 +1,34 @@
+name: 'product' # only referred to in this config file
+version: '1.0.0'
+config-version: 2
+
+profile: 'current'
+
+macro-paths: ["macros", "../dbt_shared/macros"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+model-paths: ["models"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  +labels:
+    stability: unstable
+    data_classification: public
+  +persist_docs:
+    relation: true
+    columns: true
+
+tests:
+  product:
+    +where: "download_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 14 DAY)"
+
+on-run-start:
+  - '{{ ensure_dataset() }}'
+
+on-run-end:
+  - '{{ drop_redundant_models(dry_run=false) }}'

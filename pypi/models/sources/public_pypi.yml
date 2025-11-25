@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: pypi
+    database: bigquery-public-data
+    schema: pypi
+    description: See documentation at https://packaging.python.org/en/latest/guides/analyzing-pypi-package-downloads/#public-dataset
+    tables:
+      - name: file_downloads

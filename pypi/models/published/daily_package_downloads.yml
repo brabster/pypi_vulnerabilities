@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: daily_package_downloads
+    config:
+      grants:
+        roles/bigquery.dataViewer:
+          - allAuthenticatedUsers
+    description: Download counts for packages
+    columns:
+      - name: download_date
+        data_tests:
+          - not_null
+      - name: package
+        description: Package name
+        data_tests:
+          - not_null
+      - name: package_version
+        description: Unmodified package version string
+        data_tests:
+          - not_null
+      - name: download_count
+        description: Number of downloads recorded
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+      - name: installer
+        description: Installer name, eg. pip, requests
+          
