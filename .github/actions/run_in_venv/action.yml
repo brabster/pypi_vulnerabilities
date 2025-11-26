@@ -1,6 +1,10 @@
 name: Run CLI task in venv
 
 inputs:
+  working-dir:
+    description: directory to cd into
+    required: false
+    default: '.'
   script:
     description: script and any required arguments
     required: true
@@ -18,6 +22,8 @@ runs:
         python -m venv venv
         source venv/bin/activate
         source .envs/prod/.env
+
+        cd ${{ inputs.working-dir }}
 
         # only need to do this once per run
         mkdir -p target

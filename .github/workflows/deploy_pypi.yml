@@ -11,9 +11,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./pypi  
     env:
       PIP_REQUIRE_VIRTUALENV: true
       DBT_PYPI_EARLIEST_DOWNLOAD_DATE: ${{ vars.DBT_PYPI_EARLIEST_DOWNLOAD_DATE }}
@@ -36,7 +33,8 @@ jobs:
       - name: ensure_schema_objects
         uses: ./.github/actions/run_in_venv
         with:
+          working-dir: ./pypi
           script: |
             dbt debug
             dbt deps
-            dbt run-operation ensure_datasets
+            dbt run-operation ensure_dataset
