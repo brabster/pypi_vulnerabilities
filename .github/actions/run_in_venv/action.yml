@@ -1,0 +1,49 @@
+name: Run CLI task in venv
+
+inputs:
+  script:
+    description: script and any required arguments
+    required: true
+  timeout-mins:
+    description: timeout after mins
+    required: false
+    default: 60
+
+runs:
+  using: composite
+  steps:
+    - name: python_task
+      shell: bash
+      run: |-
+        python -m venv venv
+        source venv/bin/activate
+        source .envs/prod/.env
+
+        # only need to do this once per run
+        mkdir -p target
+        if [[ -f target/.resolved_dependencies.txt ]]; then
+          echo "Dependencies already resolved"
+        else
+          echo "install or upgrade system packages"
+          python -m pip install --upgrade pip setuptools
+
+          echo "install or upgrade application packages"
+          if [[ -f requirements.txt ]]; then pip install -U -r requirements.txt; fi
+          if [[ -f pyproject.toml ]]; then pip install -U .; fi
+
+          python -m pip install safety
+          safety check
+
+          echo "checking for dbt command"
+          if command -v dbt; then
+              echo "updating dbt dependencies"
+              dbt deps
+          fi
+        fi
+
+        cat > action.sh <<EOL
+        ${{ inputs.script }}
+        EOL
+        chmod 755 action.sh
+
+        timeout ${{ inputs.timeout-mins }}m ./action.sh || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
