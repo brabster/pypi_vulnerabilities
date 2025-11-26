@@ -1,13 +1,19 @@
 name: Perform default Python/GCP/dbt workflow setup
 
+inputs:
+  workload_identity_provider:
+    required: true
+  service_account:
+    required: true
+
 runs:
   using: composite
   steps:
     - name: impersonate_gcp_sa
       uses: google-github-actions/auth@v2
       with:
-        workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-        service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        workload_identity_provider: ${{ inputs.workload_identity_provider }}
+        service_account: ${{ inputs.service_account }}
 
     - name: test_auth
       shell: bash

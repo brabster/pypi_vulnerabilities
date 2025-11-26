@@ -29,6 +29,9 @@ jobs:
       
       - name: setup_workflow
         uses: ./.github/actions/setup_default_workflow
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
       
       - name: ensure_schema_objects
         uses: ./.github/actions/run_in_venv
