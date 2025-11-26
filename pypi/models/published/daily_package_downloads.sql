@@ -16,7 +16,10 @@
 
 {% if is_incremental() %}
 {% set latest_partition_date_sql %}
-SELECT MAX(download_date) FROM {{ this }}
+SELECT
+  MAX(download_date)
+FROM {{ this }}
+WHERE download_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)
 {% endset %}
 
 {% set latest_partition_date = dbt_utils.get_single_value(latest_partition_date_sql, '1970-01-01') %}
