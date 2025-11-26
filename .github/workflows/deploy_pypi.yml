@@ -38,3 +38,13 @@ jobs:
             dbt debug
             dbt deps
             dbt run-operation ensure_dataset
+
+      - name: update
+        uses: ./.github/actions/run_in_venv
+        with:
+          working-dir: ./pypi
+          script: |
+            dbt debug
+            dbt deps
+            dbt run
+            dbt test
