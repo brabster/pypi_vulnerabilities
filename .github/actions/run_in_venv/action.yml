@@ -37,7 +37,7 @@ runs:
           if [[ -f requirements.txt ]]; then pip install -q -U -r requirements.txt; fi
           if [[ -f pyproject.toml ]]; then pip install -q -U .; fi
 
-          python -m pip install safety
+          python -m pip install -q -U safety
           safety check
 
           echo "checking for dbt command"
