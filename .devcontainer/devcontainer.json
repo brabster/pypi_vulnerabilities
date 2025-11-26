@@ -2,7 +2,7 @@
     "image": "ghcr.io/brabster/terraform-bootstrap-gcp",
     "containerEnv": {
         "GOOGLE_CLOUD_PROJECT": "pypi-vulns",
-        "DBT_BQ_LOCATION": "US",
+        "DBT_LOCATION": "US",
         "PIP_REQUIRE_VIRTUALENV": "true"
     },
     "remoteEnv": {

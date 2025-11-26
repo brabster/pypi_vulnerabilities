@@ -1,8 +1,8 @@
 current:
   outputs:
     current:
-      dataset: "{{ env_var('DBT_DATASET', 'sandbox_' ~ env_var('GITHUB_USER')) }}_pypi"
-      location: "{{ env_var('DBT_BQ_LOCATION') }}"
+      dataset: "{{ env_var('DBT_DATASET', 'sandbox_' ~ env_var('GITHUB_USER', 'unknown')) }}_pypi"
+      location: "{{ env_var('DBT_LOCATION') }}"
       method: oauth
       priority: interactive
       project: "{{ env_var('GOOGLE_CLOUD_PROJECT') }}"
