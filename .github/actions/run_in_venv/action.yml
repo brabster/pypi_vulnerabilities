@@ -34,8 +34,8 @@ runs:
           python -m pip install --upgrade pip setuptools
 
           echo "install or upgrade application packages"
-          if [[ -f requirements.txt ]]; then pip install -U -r requirements.txt; fi
-          if [[ -f pyproject.toml ]]; then pip install -U .; fi
+          if [[ -f requirements.txt ]]; then pip install -q -U -r requirements.txt; fi
+          if [[ -f pyproject.toml ]]; then pip install -q -U .; fi
 
           python -m pip install safety
           safety check
