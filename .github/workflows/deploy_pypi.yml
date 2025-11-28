@@ -1,0 +1,35 @@
+on:
+  workflow_dispatch: {}
+  workflow_call: {}
+  push:
+    paths:
+      - pypi
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      PIP_REQUIRE_VIRTUALENV: true
+      DBT_PYPI_EARLIEST_DOWNLOAD_DATE: ${{ vars.DBT_PYPI_EARLIEST_DOWNLOAD_DATE }}
+      DBT_MAX_GIGABYTES_BILLED: ${{ vars.DBT_MAX_GIGABYTES_BILLED }}
+    permissions:
+        contents: read
+        id-token: write
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      
+      - name: setup_workflow
+        uses: ./.github/actions/setup_default_workflow
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      
+      - name: update
+        uses: ./.github/actions/run_in_venv
+        with:
+          working-dir: ./pypi
+          script: |
+            dbt debug
+            dbt deps
+            dbt run-operation ensure_dataset
+            dbt build

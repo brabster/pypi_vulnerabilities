@@ -1,7 +1,11 @@
 {
-    "image": "mcr.microsoft.com/devcontainers/python:3.11",
-    "postCreateCommand": ".devcontainer/post_create.sh",
+    "image": "ghcr.io/brabster/terraform-bootstrap-gcp",
+    "containerEnv": {
+        "GOOGLE_CLOUD_PROJECT": "pypi-vulns",
+        "DBT_LOCATION": "US",
+        "PIP_REQUIRE_VIRTUALENV": "true"
+    },
     "remoteEnv": {
-        "GOOGLE_APPLICATION_CREDENTIALS": "/tmp/sa.json"
+        "PATH": "${containerEnv:PATH}:${containerWorkspaceFolder}/.dev_scripts"
     }
 }

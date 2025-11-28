@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../pypi"
+		},
+		{
+			"path": "../dbt_shared"
+		},
+		{
+			"path": "../vscode_shared"
+		},
+		{
+			"path": ".."
+		},
+	],
+	"settings": {}
+}

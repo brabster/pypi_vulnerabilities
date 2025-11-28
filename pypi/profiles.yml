@@ -1,0 +1,13 @@
+current:
+  outputs:
+    current:
+      dataset: "{{ env_var('DBT_DATASET', 'sandbox_' ~ env_var('GITHUB_USER', 'unknown')) }}_pypi"
+      location: "{{ env_var('DBT_LOCATION') }}"
+      method: oauth
+      priority: interactive
+      project: "{{ env_var('GOOGLE_CLOUD_PROJECT') }}"
+      threads: "{{ env_var('DBT_THREADS', '8') | int }}"
+      type: bigquery
+      # 50GB limit default, overridden in actions variables
+      maximum_bytes_billed: "{{ env_var('DBT_MAX_GIGABYTES_BILLED', '50') | int * (1024 * 1024 * 1024) }}"
+  target: current

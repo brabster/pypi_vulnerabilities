@@ -6,7 +6,7 @@
     {
       "label": "init_and_update",
       "type": "shell",
-      "command": "${workspaceFolder}/.dev_scripts/init_and_update.sh",
+      "command": "init_and_update",
       "runOptions": {
         "runOn": "folderOpen"
       },
