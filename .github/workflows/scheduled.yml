@@ -9,30 +9,6 @@ env:
   DBT_MAX_GIGABYTES_BILLED: ${{ vars.DBT_MAX_GIGABYTES_BILLED }}
 
 jobs:
-  refresh-safety:
-    runs-on: ubuntu-latest
-    
-    permissions:
-        contents: read
-        id-token: write
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      
-      - name: setup_workflow
-        uses: ./.github/actions/setup_default_workflow
-        with:
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
-
-      - name: load_prod_safety_db
-        uses: ./.github/actions/run_in_venv
-        with:
-          working-dir: .
-          script: |
-            dbt run-operation ensure_datasets
-            python etl/safety_db/load_missing_partitions.py --dataset ${DBT_DATASET}_internal
-
   refresh-pypi:
     uses: ./.github/workflows/deploy_pypi.yml
     permissions:
@@ -48,7 +24,7 @@ jobs:
     secrets: inherit
 
   refresh_vulns:
-    uses: ./.github/workflows/deploy_safety.yml
+    uses: ./.github/workflows/deploy_vulns.yml
     permissions:
       contents: read
       id-token: write
