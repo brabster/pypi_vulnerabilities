@@ -48,6 +48,8 @@ runs:
         fi
 
         cat > action.sh <<EOL
+        set -euo pipefail
+        
         ${{ inputs.script }}
         EOL
         chmod 755 action.sh

@@ -27,15 +27,6 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
       
-      - name: ensure_schema_objects
-        uses: ./.github/actions/run_in_venv
-        with:
-          working-dir: ./pypi
-          script: |
-            dbt debug
-            dbt deps
-            dbt run-operation ensure_dataset
-
       - name: update
         uses: ./.github/actions/run_in_venv
         with:
@@ -43,5 +34,5 @@ jobs:
           script: |
             dbt debug
             dbt deps
-            dbt run
-            dbt test
+            dbt run-operation ensure_dataset
+            dbt build

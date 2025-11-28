@@ -42,7 +42,7 @@ GROUP BY
 {% else %}
 
 SELECT
-    download_date,
+    download_date1,
     package,
     package_version,
     installer,
