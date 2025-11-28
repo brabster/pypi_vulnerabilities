@@ -39,7 +39,7 @@ jobs:
             python etl/safety_db/load_missing_partitions.py --dataset ${DBT_DATASET}_internal
 
   refresh-pypi:
-    uses: ./.github/workflows/publish_pypi.yml
+    uses: ./.github/workflows/deploy_pypi.yml
     secrets: inherit
 
   refresh_vulns:
