@@ -1,8 +1,7 @@
-name: deploy-pypi
 on:
   workflow_dispatch: {}
   workflow_call: {}
-  
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
