@@ -28,7 +28,7 @@ tests:
     +where: "download_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 14 DAY)"
 
 on-run-start:
-  - '{{ ensure_dataset() }}'
+  - '{{ ensure_dataset(is_public=env_var("DBT_PUBLIC")) }}'
 
 on-run-end:
   - '{{ drop_redundant_models(dry_run=false) }}'
