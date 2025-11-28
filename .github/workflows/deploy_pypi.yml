@@ -1,6 +1,9 @@
 on:
   workflow_dispatch: {}
   workflow_call: {}
+  push:
+    paths:
+      - pypi
 jobs:
   deploy:
     runs-on: ubuntu-latest
