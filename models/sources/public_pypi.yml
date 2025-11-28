@@ -7,3 +7,9 @@ sources:
     description: See documentation at https://packaging.python.org/en/latest/guides/analyzing-pypi-package-downloads/#public-dataset
     tables:
       - name: file_downloads
+  
+  - name: pypi_daily
+    schema: pypi
+    description: Daily download counts
+    tables:
+      - name: daily_package_downloads

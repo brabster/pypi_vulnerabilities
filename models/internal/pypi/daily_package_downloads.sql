@@ -20,7 +20,7 @@ SELECT
   COUNT(1) AS download_count
 FROM {{ ref('file_downloads') }}
 WHERE download_date >= DATE('{{ env_var("DBT_PYPI_EARLIEST_DOWNLOAD_DATE") }}')
-
+  AND 1 = 0 --pause this model
 {% if is_incremental() %}
   AND download_date >= '{{ latest_partition_date }}'
 {% endif %}
