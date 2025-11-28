@@ -1,7 +1,8 @@
 {% macro ensure_dataset(region='US', is_public=False) -%}
 {% if execute %}
+    {% set dataset_ref = '`' ~ target.database ~ '.' ~ target.schema ~ '`' %}
+    
     {% set query %}
-        {% set dataset_ref = '`' ~ target.database ~ '.' ~ target.schema ~ '`' %}
         {% do log('Ensuring dataset ' ~ dataset_ref ~ ' exists') %}
         CREATE SCHEMA IF NOT EXISTS {{ dataset_ref }}
         OPTIONS(
@@ -21,6 +22,6 @@
     {%- endset -%}
 
     {%- do run_query(grant_sql) -%}
-    
+
 {% endif %}
 {%- endmacro %}
