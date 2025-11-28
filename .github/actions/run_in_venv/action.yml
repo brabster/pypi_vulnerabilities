@@ -49,9 +49,8 @@ runs:
 
         cat > action.sh <<EOL
         set -euo pipefail
-        
+
         ${{ inputs.script }}
         EOL
-        chmod 755 action.sh
 
-        timeout ${{ inputs.timeout-mins }}m ./action.sh || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
+        timeout ${{ inputs.timeout-mins }}m bash -c ./action.sh || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
