@@ -7,7 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PIP_REQUIRE_VIRTUALENV: true
-      DBT_PYPI_EARLIEST_DOWNLOAD_DATE: ${{ vars.DBT_PYPI_EARLIEST_DOWNLOAD_DATE }}
       DBT_MAX_GIGABYTES_BILLED: ${{ vars.DBT_MAX_GIGABYTES_BILLED }}
     permissions:
         contents: read
@@ -22,12 +21,20 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
       
-      - name: update
+      - name: refresh_vulns
         uses: ./.github/actions/run_in_venv
         with:
-          working-dir: ./pypi
+          working-dir: .
           script: |
-            dbt debug
-            dbt deps
-            dbt run-operation ensure_dataset
+            dbt run-operation ensure_datasets
             dbt build
+            dbt run-operation cleanup --args '{dry_run: False}'
+
+      - name: upload prod pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: target
+
+      - name: deploy prod pages
+        uses: actions/deploy-pages@v4
+      

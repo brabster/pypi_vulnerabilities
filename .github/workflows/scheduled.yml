@@ -1,11 +1,6 @@
 name: deploy-to-gcp
 on:
   workflow_dispatch: {}
-  push:
-    # branches:
-    #   - main
-    paths-ignore:
-      - 'docs/**'
   schedule:
     - cron: '0 4 * * SAT'
 
@@ -41,45 +36,26 @@ jobs:
   refresh-pypi:
     uses: ./.github/workflows/deploy_pypi.yml
     permissions:
-        contents: read
-        id-token: write
+      contents: read
+      id-token: write
+    secrets: inherit
+
+  refresh-safety:
+    uses: ./.github/workflows/deploy_safety.yml
+    permissions:
+      contents: read
+      id-token: write
     secrets: inherit
 
   refresh_vulns:
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/deploy_safety.yml
+    permissions:
+      contents: read
+      id-token: write
+      actions: read
+      pages: write
     needs:
       - refresh-safety
       - refresh-pypi
+    secrets: inherit
     
-    permissions:
-        contents: read
-        id-token: write
-        actions: read
-        pages: write
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      
-      - name: setup_workflow
-        uses: ./.github/actions/setup_default_workflow
-        with:
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
-
-      - name: refresh_vulns
-        uses: ./.github/actions/run_in_venv
-        with:
-          working-dir: .
-          script: |
-            dbt run-operation ensure_datasets
-            dbt build
-            dbt run-operation cleanup --args '{dry_run: False}'
-
-      - name: upload prod pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: target
-
-      - name: deploy prod pages
-        uses: actions/deploy-pages@v4
-        

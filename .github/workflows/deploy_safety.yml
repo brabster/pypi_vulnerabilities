@@ -2,12 +2,12 @@ name: deploy-pypi
 on:
   workflow_dispatch: {}
   workflow_call: {}
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
       PIP_REQUIRE_VIRTUALENV: true
-      DBT_PYPI_EARLIEST_DOWNLOAD_DATE: ${{ vars.DBT_PYPI_EARLIEST_DOWNLOAD_DATE }}
       DBT_MAX_GIGABYTES_BILLED: ${{ vars.DBT_MAX_GIGABYTES_BILLED }}
     permissions:
         contents: read
@@ -22,12 +22,10 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
       
-      - name: update
+      - name: load_prod_safety_db
         uses: ./.github/actions/run_in_venv
         with:
-          working-dir: ./pypi
+          working-dir: .
           script: |
-            dbt debug
-            dbt deps
-            dbt run-operation ensure_dataset
-            dbt build
+            dbt run-operation ensure_datasets
+            python etl/safety_db/load_missing_partitions.py --dataset ${DBT_DATASET}_internal
