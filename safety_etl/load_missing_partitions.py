@@ -9,7 +9,7 @@ UNCOMMITTED_PATH = os.path.join(BASE_DIR, "../uncommitted")
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--project_id", default=os.environ.get("DBT_PROJECT"))
+    parser.add_argument("--project_id", default=os.environ.get("GOOGLE_CLOUD_PROJECT"))
     parser.add_argument("--location", default=os.environ.get("DBT_LOCATION"))
     parser.add_argument("--dataset", default=os.environ.get("DBT_DATASET"))
     parser.add_argument("--history_table", default="safety_db_history")

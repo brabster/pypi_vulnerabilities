@@ -16,12 +16,21 @@ jobs:
       id-token: write
     secrets: inherit
 
+  refresh-semver-udf:
+    uses: ./.github/workflows/deploy_semver_udf.yml
+    permissions:
+      contents: read
+      id-token: write
+    secrets: inherit
+
   refresh-safety:
     uses: ./.github/workflows/deploy_safety.yml
     permissions:
       contents: read
       id-token: write
     secrets: inherit
+    needs:
+      - refresh-semver-udf
 
   refresh_vulns:
     uses: ./.github/workflows/deploy_vulns.yml
@@ -30,8 +39,9 @@ jobs:
       id-token: write
       actions: read
       pages: write
+    secrets: inherit
     needs:
+      - refresh-semver-udf
       - refresh-safety
       - refresh-pypi
-    secrets: inherit
     
