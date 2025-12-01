@@ -30,9 +30,10 @@ if __name__ == "__main__":
     )
 
     history_table_id = f"{args.project_id}.{args.dataset}.{args.history_table}"
+    print(f"Using history table: {history_table_id}")
     history_table = bigquery.create_partitioned_table_if_not_exists(
         bq=bq,
-        table_ref=f"{args.project_id}.{args.dataset}.{args.history_table}",
+        table_ref=history_table_id,
         schema=history_table_schema,
     )
 
