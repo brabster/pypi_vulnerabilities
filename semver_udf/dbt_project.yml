@@ -22,9 +22,9 @@ models:
   +persist_docs:
     relation: true
     columns: true
-  product:
-    impl:
-      +schema: impl
+  # product:
+  #   impl:
+  #     +schema: impl
 
 tests:
   product: {}
