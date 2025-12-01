@@ -1,5 +1,5 @@
 sources:
-  - name: semver_udf
+  - name: published_us_semver_udf
     tables:
       - name: multi_spec_has_at_least_one_upper_bound
       - name: matches_multi_spec
