@@ -27,3 +27,10 @@ jobs:
           working-dir: ./semver_udf
           script: |
             dbt build
+
+      - name: permission schemas
+        uses: ./.github/actions/run_in_venv
+        with:
+          working-dir: ./semver_udf
+          script: |
+            python published_permissions.py

@@ -32,16 +32,16 @@ jobs:
     needs:
       - refresh-semver-udf
 
-  refresh_vulns:
-    uses: ./.github/workflows/deploy_vulns.yml
-    permissions:
-      contents: read
-      id-token: write
-      actions: read
-      pages: write
-    secrets: inherit
-    needs:
-      - refresh-semver-udf
-      - refresh-safety
-      - refresh-pypi
+  # refresh_vulns:
+  #   uses: ./.github/workflows/deploy_vulns.yml
+  #   permissions:
+  #     contents: read
+  #     id-token: write
+  #     actions: read
+  #     pages: write
+  #   secrets: inherit
+  #   needs:
+  #     - refresh-semver-udf
+  #     - refresh-safety
+  #     - refresh-pypi
     
