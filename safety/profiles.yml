@@ -1,7 +1,7 @@
 current:
   outputs:
     current:
-      dataset: safetycli
+      dataset: "published_{{ env_var('DBT_LOCATION') | lower }}_safetycli"
       location: "{{ env_var('DBT_LOCATION') }}"
       method: oauth
       priority: interactive

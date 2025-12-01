@@ -26,7 +26,9 @@ jobs:
         with:
           working-dir: ./safety_etl
           script: |
-            python ./load_missing_partitions.py --dataset ${DBT_DATASET}_impl
+            export HISTORY_TABLE_DATASET=published_${DBT_LOCATION}_safetycli_impl
+            echo "Loading missing partitions into ${HISTORY_TABLE_DATASET}.safety_db_history"
+            python ./load_missing_partitions.py --dataset ${HISTORY_TABLE_DATASET}
       
       - name: refresh safety
         uses: ./.github/actions/run_in_venv
