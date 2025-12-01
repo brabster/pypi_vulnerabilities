@@ -27,3 +27,11 @@ jobs:
           working-dir: ./safety_etl
           script: |
             python ./load_missing_partitions.py --dataset ${DBT_DATASET}_impl
+      
+      - name: refresh safety
+        uses: ./.github/actions/run_in_venv
+        with:
+          working-dir: ./safety
+          script: |
+            dbt deps
+            dbt build
