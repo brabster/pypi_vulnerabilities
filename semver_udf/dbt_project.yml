@@ -25,6 +25,8 @@ models:
   product:
     impl:
       +schema: impl
+    unstable:
+      +schema: unstable
 
 tests:
   product: {}
