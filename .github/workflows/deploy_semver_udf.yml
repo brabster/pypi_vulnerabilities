@@ -21,17 +21,16 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
       
-      - name: load_prod_safety_db
+      - name: deploy udfs
         uses: ./.github/actions/run_in_venv
         with:
-          working-dir: ./safety_etl
+          working-dir: ./semver_udf
           script: |
-            python ./load_missing_partitions.py --dataset "published_${DBT_LOCATION,,}_safetycli_impl"
-      
-      - name: refresh safety
-        uses: ./.github/actions/run_in_venv
-        with:
-          working-dir: ./safety
-          script: |
-            dbt deps
             dbt build
+
+      - name: permission schemas
+        uses: ./.github/actions/run_in_venv
+        with:
+          working-dir: ./semver_udf
+          script: |
+            python published_permissions.py

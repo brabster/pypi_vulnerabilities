@@ -1,4 +1,2 @@
 security:
-  ignore-vulnerabilities:
-    '73530':
-      reason: No details of vulnerability
+  ignore-vulnerabilities: {}

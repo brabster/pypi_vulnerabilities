@@ -1,0 +1,36 @@
+name: 'product' # only referred to in this config file
+version: '1.0.0'
+config-version: 2
+
+profile: 'current'
+
+macro-paths: ["macros", "../dbt_shared/macros"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+model-paths: ["models", "udfs"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  +labels:
+    stability: unstable
+    data_classification: public
+  +persist_docs:
+    relation: true
+    columns: true
+  product:
+    impl:
+      +schema: impl
+    unstable:
+      +schema: unstable
+
+tests:
+  product: {}
+
+on-run-end:
+  - '{{ grant_schemas(schemas=schemas, grant_view_to=["specialGroup:allUsers"]) }}'
+  - '{{ drop_redundant_models(dry_run=false) }}'

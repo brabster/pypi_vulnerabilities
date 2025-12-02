@@ -1,0 +1,37 @@
+{
+	"folders": [
+		{
+			"name": "pypi",
+			"path": "pypi"
+		},
+		{
+			"name": "safety",
+			"path": "safety"
+		},
+		{
+			"name": "safety_etl",
+			"path": "safety_etl"
+		},
+		{
+			"name": "semver_udf",
+			"path": "semver_udf"
+		},
+		{
+			"name": "dbt_shared",
+			"path": "dbt_shared"
+		},
+		{
+			"name": "vscode_shared",
+			"path": "vscode_shared"
+		},
+		{
+			"name": ".github",
+			"path": ".github"
+		},
+		{
+			"name": "pypi_vulnerabilities",
+			"path": "."
+		}
+	],
+	"settings": {}
+}

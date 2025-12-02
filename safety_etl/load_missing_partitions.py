@@ -9,7 +9,7 @@ UNCOMMITTED_PATH = os.path.join(BASE_DIR, "../uncommitted")
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--project_id", default=os.environ.get("DBT_PROJECT"))
+    parser.add_argument("--project_id", default=os.environ.get("GOOGLE_CLOUD_PROJECT"))
     parser.add_argument("--location", default=os.environ.get("DBT_LOCATION"))
     parser.add_argument("--dataset", default=os.environ.get("DBT_DATASET"))
     parser.add_argument("--history_table", default="safety_db_history")
@@ -30,9 +30,10 @@ if __name__ == "__main__":
     )
 
     history_table_id = f"{args.project_id}.{args.dataset}.{args.history_table}"
+    print(f"Using history table: {history_table_id}")
     history_table = bigquery.create_partitioned_table_if_not_exists(
         bq=bq,
-        table_ref=f"{args.project_id}.{args.dataset}.{args.history_table}",
+        table_ref=history_table_id,
         schema=history_table_schema,
     )
 
